@@ -39,7 +39,8 @@ This is where we add the Silent Circle trust relationship.
 
 #### Add Silent Circle information
 
-* Enter "Silent Circle Enterprise Client" in `Display name`, and any notes that might be of interest.
+* Enter "Silent Circle Enterprise Client" in `Display name`, and any notes that
+  might be of interest.
 * Click `Next`.
 
 ![Add Silent Circle information](images/adfs_005.png  "Add Silent Circle information")
@@ -66,7 +67,8 @@ This is where we add the Silent Circle trust relationship.
 
 #### Add Relying Party trust identifier
 
-* Enter `silentcircle-entapi://rpid` in `Relying party trust identifier` and click `Add`
+* Enter `silentcircle-entapi://rpid` in `Relying party trust identifier` and
+  click `Add`
 
 ![Add Relying Party trust identifier](images/adfs_009.png  "Add Relying Party trust identifier")
 
@@ -88,7 +90,8 @@ This is where we add the Silent Circle trust relationship.
 
 #### Choose Issuance Authorization Rules
 
-* We will restrict access in a later step; for now, permit all users to access this Relying Party.
+* We will restrict access in a later step; for now, permit all users to access
+  this Relying Party.
 
 ![Choose Issuance Authorization Rule](images/adfs_012.png  "Choose Issuance Authorization Rule")
 
@@ -112,7 +115,8 @@ This is where we add the Silent Circle trust relationship.
 
 #### Add Issuance Transform Rule
 
-* The `Edit Claims Rules for Silent Circle Enterprise Client` wizard should be running now.
+* The `Edit Claims Rules for Silent Circle Enterprise Client` wizard should be
+  running now.
 * On the `Issuance Transform Rules` tab, click on `Add Rule...`
 
 ![Add Issuance Transform Rule](images/adfs_015.png  "Add Issuance Transform Rule")
@@ -127,7 +131,8 @@ This is where we add the Silent Circle trust relationship.
 
 #### Configure Temp Claim Rule
 
-* Type "Temp" as the claim rule name (we'll be copying this later and deleting it).
+* Type "Temp" as the claim rule name (we'll be copying this later and deleting
+  it).
 * Select `Active Directory` as the attribute store.
 
 ![Configure Claim Rule](images/adfs_017.png  "Configure Claim Rule")
@@ -139,7 +144,8 @@ This is where we add the Silent Circle trust relationship.
 * Add the following LDAP attribute to Outgoing claim type mappings:
   * `objectGUID` to `sub`
   * `User-Principal-Name` to `email`
-  * `displayName` to `name` (note that the Wizard keeps changing this to `Name` - allow it to do so for now; we'll change it later).
+  * `displayName` to `name` (note that the Wizard keeps changing this to `Name`
+    - allow it to do so for now; we'll change it later).
 
 ![Add LDAP Attributes - objectGUID](images/adfs_019.png  "Add LDAP Attributes - objectGUID")
 
@@ -161,7 +167,8 @@ This is where we add the Silent Circle trust relationship.
 
 #### Copy Claim Rule Language
 
-* Click `Edit Rule...` and then `View Rule Language`. Copy the selected text (right-click, then `Copy`).
+* Click `Edit Rule...` and then `View Rule Language`. Copy the selected text
+  (right-click, then `Copy`).
 
 ![Edit rule](images/adfs_024.png  "Edit rule")
 
@@ -193,7 +200,8 @@ This is where we add the Silent Circle trust relationship.
 
 ---
 
-* Name it "Send Silent Circle Enterprise Client Claims` and paste the copied text into it.
+* Name it "Send Silent Circle Enterprise Client Claims` and paste the copied
+  text into it.
 * Delete the text `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/`.
 
 ![Fix name claim](images/adfs_033.png  "Fix name claim")
@@ -217,11 +225,18 @@ This is where we add the Silent Circle trust relationship.
 
 ### Add Issuance Authorization Rules
 
-The precise details will vary widely, but most companies will want to restrict which employees can use Silent Circle. This can be done using Issuance Authorization Rules. If an employee tries to authenticate for a Silent Circle resource (like Silent Phone), but is blocked by this rule, the employee will be prevented from authenticating, and will not be authorized to use Silent Circle.
+The precise details will vary widely, but most companies will want to restrict
+which employees can use Silent Circle. This can be done using Issuance
+Authorization Rules. If an employee tries to authenticate for a Silent Circle
+resource (like Silent Phone), but is blocked by this rule, the employee will be
+prevented from authenticating, and will not be authorized to use Silent Circle.
 
-In this chapter we add a simple rule based on a user group that was previously added. No doubt more elaborate rules will be desired, but this is a good starting point.
+In this chapter we add a simple rule based on a user group that was previously
+added. No doubt more elaborate rules will be desired, but this is a good
+starting point.
 
-* Select the `Issuance Authorization Rules` tab in `Edit Claim Rules`, and click on `Add Rule...`.
+* Select the `Issuance Authorization Rules` tab in `Edit Claim Rules`, and
+  click on `Add Rule...`.
 
 ![Add issuance authorization rule](images/adfs_039.png  "Add issuance authorization rule")
 
@@ -240,19 +255,24 @@ In this chapter we add a simple rule based on a user group that was previously a
 
 ---
 
-* Ensuring that the claim type is still `Group SID`, click `Browse` to select an incoming claim rule.
+* Ensuring that the claim type is still `Group SID`, click `Browse` to select
+  an incoming claim rule.
 
 ![Select an incoming claim rule](images/adfs_042.png  "Select an incoming claim rule")
 
 ---
 
-* In the `Select User, Computer, or Group` dialog box, start typing in the group name. In this example, we've typed in `Silent Cir` and deliberately not completed it.
+* In the `Select User, Computer, or Group` dialog box, start typing in the
+  group name. In this example, we've typed in `Silent Cir` and deliberately not
+  completed it.
 
 ![Select User, Computer, or Group](images/adfs_043.png  "Select User, Computer, or Group")
 
 ---
 
-* Now, click `Check Names` and the name will be auto-completed if possible. Otherwise, type in the full group name and click `Check names` again, followed by `OK`.
+* Now, click `Check Names` and the name will be auto-completed if possible.
+  Otherwise, type in the full group name and click `Check names` again,
+  followed by `OK`.
 
 ![Click Check Names](images/adfs_044.png  "Click Check Names")
 
@@ -280,7 +300,8 @@ In this chapter we add a simple rule based on a user group that was previously a
 
 ---
 
-* Finally, we see the `Silent Circle Relying Party` Enterprise Trust rule we've been working on.
+* Finally, we see the `Silent Circle Relying Party` Enterprise Trust rule we've
+  been working on.
 
 ![Silent Circle Relying Party Enterprise Trust rule](images/adfs_049.png  "Silent Circle Relying Party Enterprise Trust rule")
 
@@ -288,7 +309,8 @@ In this chapter we add a simple rule based on a user group that was previously a
 
 ### Configure Silent Circle ADFS OAuth2 Client
 
-This is the last step. In this step we need to configure the Silent Circle OAuth2 client.
+This is the last step. In this step we need to configure the Silent Circle
+OAuth2 client.
 
 In a PowerShell window, type in the following command:
 
