@@ -1,19 +1,70 @@
+################################################
 # Add ADFS Relying Party Trust for Silent Circle
+################################################
 
-# These will become parameters of the script
+<#
+.SYNOPSIS
+Add Silent Circle Relying Party Trust.
+#>
 
-$clientId = 'SCEntClient'
-$rpid = 'silentcircle-entapi://rpid'
-$rpName = 'Silent Circle Enterprise Client'
-$redirectURIs = @(
-    'https://accounts.silentcircle.com/sso/oauth2/return/',
-    'https://accounts-dev.silentcircle.com/sso/oauth2/return/',
-    'https://localsc.ch/sso/oauth2/return/',
-    'http://localsc.ch:8000/sso/oauth2/return/'
+Param(
+    [ValidateNotNullOrEmpty()]
+    [String]
+    $ClientId = 'SCEntClient',
+
+    [ValidateNotNullOrEmpty()]
+    [String]
+    [alias("RPID")]
+    $RelyingPartyId = 'silentcircle-entapi://rpid',
+
+    [ValidateNotNullOrEmpty()]
+    [String]
+    [alias("RPN")]
+    $RelyingPartyName = 'Silent Circle Enterprise Client',
+
+    [ValidateNotNullOrEmpty()]
+    [String[]]
+    [alias("RURIs")]
+    $RedirectURIs = @(
+        'https://accounts.silentcircle.com/sso/oauth2/return/',
+        'https://accounts-dev.silentcircle.com/sso/oauth2/return/',
+        'https://localsc.ch/sso/oauth2/return/',
+        'http://localsc.ch:8000/sso/oauth2/return/'
+    ),
+
+    [String]
+    [alias("IAG")]
+    $IssuanceAuthorizationGroupName,
+
+    [Switch]
+    $Verbose = $false
 )
-# TODO: Allow entry of group name and look up corresponding group SID.
-# Change this to the appropriate group SID for the enterprise
-$groupSID = 'S-1-5-21-207668378-2981979776-1947477811-1112'
+
+Set-StrictMode -Version 3
+
+function getSIDForUserOrGroup {
+    param (
+        [String]$Id
+    )
+
+    $objUser = New-Object System.Security.Principal.NTAccount($Id)
+    $strSID = $objUser.Translate([System.Security.Principal.SecurityIdentifier])
+    $strSID.Value
+}
+
+if ($IssuanceAuthorizationGroupName) {
+    $groupSID = (getSIDForUserOrGroup $IssuanceAuthorizationGroupName)
+    Write-Debug "groupSID for '$IssuanceAuthorizationGroupName': '$groupSID'"
+
+    $issuanceAuthorizationRules = @"
+@RuleTemplate = "Authorization"
+@RuleName = "Silent Circle Enterprise User"
+c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid",
+    Value =~ "^(?i)$groupSID$"]
+    => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit",
+            Value = "PermitUsersWithClaim");
+"@
+}
 
 $issuanceTransformRules = @"
 @RuleName = "Silent Circle Enterprise Client Mapping"
@@ -25,38 +76,46 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccou
       param = c.Value);
 "@
 
-$issuanceAuthorizationRules = @"
-@RuleTemplate = "Authorization"
-@RuleName = "Silent Circle Enterprise User"
-c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid",
-   Value =~ "^(?i)$groupSID$"]
-   => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit",
-            Value = "PermitUsersWithClaim");
-"@
+# Remove-AdfsRelyingPartyTrust -TargetName $RelyingPartyName
 
-# Remove-AdfsRelyingPartyTrust -TargetName $rpName
-
-if (Get-AdfsRelyingPartyTrust $rpName) {
-    Write-Warning "Relying Party trust already exists: $rpName; skipping creation."
-} else {
+if (-not (Get-AdfsRelyingPartyTrust $RelyingPartyName)) {
+    if ($IssuanceAuthorizationGroupName) {
+        Add-AdfsRelyingPartyTrust `
+            -Identifier $RelyingPartyId `
+            -Name $RelyingPartyName `
+            -IssuanceTransformRules $issuanceTransformRules `
+            -IssuanceAuthorizationRules $issuanceAuthorizationRules `
+            -IssueOAuthRefreshTokensTo AllDevices `
+            -AlwaysRequireAuthentication
+    } else {
     Add-AdfsRelyingPartyTrust `
-        -Identifier $rpid `
-        -Name $rpName `
+        -Identifier $RelyingPartyId `
+        -Name $RelyingPartyName `
         -IssuanceTransformRules $issuanceTransformRules `
-        -IssuanceAuthorizationRules $issuanceAuthorizationRules `
         -IssueOAuthRefreshTokensTo AllDevices `
         -AlwaysRequireAuthentication
+    }
+    if ($Verbose) {
+        Write-Output "Created Relying Party Trust:"
+        Get-AdfsRelyingPartyTrust $RelyingPartyName
+    }
+} else {
+    Write-Warning "Relying Party trust already exists: $RelyingPartyName; skipping creation."
 }
 
 
-# Remove-AdfsClient -TargetClientId $clientId
+# Remove-AdfsClient -TargetClientId $ClientId
 
-if (Get-AdfsClient -ClientId $clientId) {
-    Write-Warning "Client ID already exists: $clientId; skipping creation."
-} else {
+if (-not (Get-AdfsClient -ClientId $ClientId)) {
     Add-AdfsClient `
-        -ClientId $clientId `
-        -Name $rpName `
-        -Description $rpName `
-        -RedirectURI $redirectURIs
+        -ClientId $ClientId `
+        -Name $RelyingPartyName `
+        -Description $RelyingPartyName `
+        -RedirectURI $RedirectURIs
+    if ($Verbose) {
+        Write-Output "Created ADFS Client:"
+        Get-AdfsClient -ClientId $ClientId
+    }
+} else {
+    Write-Warning "Client ID already exists: $ClientId; skipping creation."
 }
