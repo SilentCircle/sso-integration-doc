@@ -8,20 +8,24 @@ Add Silent Circle Relying Party Trust.
 #>
 
 Param(
+    [parameter(HelpMessage="Enter the Relying Party client ID.")]
     [ValidateNotNullOrEmpty()]
     [String]
     $ClientId = 'SCEntClient',
 
+    [parameter(HelpMessage="Enter the Relying Party ID.")]
     [ValidateNotNullOrEmpty()]
     [String]
     [alias("RPID")]
     $RelyingPartyId = 'silentcircle-entapi://rpid',
 
+    [parameter(HelpMessage="Enter the Relying Party name.")]
     [ValidateNotNullOrEmpty()]
     [String]
     [alias("RPN")]
     $RelyingPartyName = 'Silent Circle Enterprise Client',
 
+    [parameter(HelpMessage="Enter the Relying Party Redirect URIs separated by commas.")]
     [ValidateNotNullOrEmpty()]
     [String[]]
     [alias("RURIs")]
@@ -32,12 +36,16 @@ Param(
         'http://localsc.ch:8000/sso/oauth2/return/'
     ),
 
+    [parameter(HelpMessage="Enter the Issuance Authorization Group Name or
+                            leave blank not to add any issuance authorization rules.
+                            This group must exist or an error will occur.")]
     [String]
     [alias("IAG")]
     $IssuanceAuthorizationGroupName,
 
+    [parameter(HelpMessage="Specifying this displays the Relying Party and Client data if they are created.")]
     [Switch]
-    $Verbose = $false
+    $ShowCreated = $false
 )
 
 Set-StrictMode -Version 3
@@ -95,7 +103,7 @@ if (-not (Get-AdfsRelyingPartyTrust $RelyingPartyName)) {
         -IssueOAuthRefreshTokensTo AllDevices `
         -AlwaysRequireAuthentication
     }
-    if ($Verbose) {
+    if ($ShowCreated) {
         Write-Output "Created Relying Party Trust:"
         Get-AdfsRelyingPartyTrust $RelyingPartyName
     }
@@ -112,10 +120,11 @@ if (-not (Get-AdfsClient -ClientId $ClientId)) {
         -Name $RelyingPartyName `
         -Description $RelyingPartyName `
         -RedirectURI $RedirectURIs
-    if ($Verbose) {
+    if ($ShowCreated) {
         Write-Output "Created ADFS Client:"
         Get-AdfsClient -ClientId $ClientId
     }
 } else {
     Write-Warning "Client ID already exists: $ClientId; skipping creation."
 }
+
