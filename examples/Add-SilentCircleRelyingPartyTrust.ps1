@@ -164,15 +164,14 @@ Begin {
     # If -DeleteIfPresent is specified, deletes the trust and returns $true.
     # Otherwise, returns $false.
     function ensureAdfsRelyingPartyTrustIsAbsent($Name, $DeleteIfPresent) {
-        if (Get-AdfsRelyingPartyTrust -Name $Name) {
-            if ($DeleteIfPresent) {
-                Remove-AdfsRelyingPartyTrust -TargetName $Name
-                Write-Verbose "Removed AdfsRelyingPartyTrust -TargetName $Name"
-                return $true
-            }
+        $isPresent = Get-AdfsRelyingPartyTrust -Name $Name
+        if ($isPresent -and $DeleteIfPresent) {
+            Remove-AdfsRelyingPartyTrust -TargetName $Name
+            Write-Verbose "Removed AdfsRelyingPartyTrust -TargetName '$Name'"
+            $isPresent = $false
         }
 
-        $false
+        -not $isPresent
     }
 
 
@@ -180,15 +179,14 @@ Begin {
     # If -DeleteIfPresent is specified, deletes any matching client and returns
     # $true.
     function ensureAdfsClientIsAbsent($ClientId, $DeleteIfPresent) {
-        if (Get-AdfsClient -ClientId $ClientId) {
-            if ($DeleteIfPresent) {
-                Remove-AdfsClient -TargetClientId $ClientId
-                Write-Verbose "Removed AdfsClient -ClientId $ClientId"
-                return $true
-            }
+        $isPresent = Get-AdfsClient -ClientId $ClientId
+        if ($isPresent -and $DeleteIfPresent) {
+            Remove-AdfsClient -TargetClientId $ClientId
+            Write-Verbose "Removed AdfsClient -ClientId '$ClientId'"
+            $isPresent = $false
         }
 
-        $false
+        -not $isPresent
     }
 
     $issuanceTransformRules = @"
@@ -251,7 +249,7 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid",
             Write-Verbose "Set IssuanceTransformRules '$RelyingPartyName': `n$issuanceTransformRules"
         }
 
-        Write-Verbose "Created Relying Party Trust:$( (Get-AdfsRelyingPartyTrust $RelyingPartyName | Where-Object | Out-String) )"
+        Write-Verbose "Created Relying Party Trust:$( (Get-AdfsRelyingPartyTrust $RelyingPartyName | Out-String) )"
     } else {
         Write-Warning "Relying Party trust already exists: $RelyingPartyName; skipping creation."
     }
