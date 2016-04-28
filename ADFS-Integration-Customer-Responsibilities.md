@@ -9,54 +9,54 @@
 
 ### Configure Active Directory Federation Services (ADFS)
 
-This is where we add the Silent Circle trust relationship. There are two ways of doing this:
+This is where we add the Silent Circle trust relationship. There are two ways
+of doing this:
 
 * [Configure using Windows PowerShell cmdlets](#scups) provided by Silent Circle.
 * [Configure using the AD FS GUI tools](#scutg).
 
-The GUI tools show you step-by-step what is happening, while the cmdlet is much quicker and easier to use for people that have access to, and experience with, Windows PowerShell.
+The GUI tools show you step-by-step what is happening, while the cmdlet is much
+quicker and easier to use for people that have access to, and experience with,
+Windows PowerShell.
 
 ---
 
 <a name="scups"></a>
 ### Configure using PowerShell cmdlets
 
-The following cmdlets are provided as working examples of managing Silent Circle's
-AD FS integration:
+Some PowerShell cmdlets are available for download from Silent Circle's [GitHub
+SSO repository](https://github.com/SilentCircle/sso-integration) that can
+assist with automating Silent Circle's AD FS integration.
 
-* `Add-SilentCircleRelyingPartyTrust.ps1`: This is a Windows PowerShell cmdlet
-  that performs most, if not all, of the Silent Circle AD FS integration on the
-  customer's AD FS system.
-* `Remove-SilentCircleRelyingPartyTrust.ps1`: This is a Windows PowerShell
-  cmdlet that removes Silent Circle AD FS integration from the customer's AD FS
-  system, as installed by `Add-SilentCircleRelyingPartyTrust.ps1`.
+To download, you can clone the GitHub repository as follows:
 
----
+    git clone https://github.com/SilentCircle/sso-integration.git
 
-#### Cmdlet Requirements
+You can also download the repository as a ZIP file using
+[this link](https://github.com/SilentCircle/sso-integration/archive/master.zip).
 
-* User signed on to an appropriate AD FS server as Administrator (or
-  Administrator-level user).
-* PowerShell v3 or later installed on the server.
-* (Optional) A previously-created AD group to which the users authorized to use
-  Silent Circle belong (or will belong).
+From PowerShell, you can download and extract the ZIP file as follows:
 
----
-
-#### Before running the cmdlets
-
-* Save the cmdlet to a local directory on the server, say, `C:\Users\Administrator\Scripts`.
-* Start a PowerShell session.
-* Change to the scripts directory, e.g. `cd C:\Users\Administrator\Scripts`
-* Ensure the current session's execution policy is set to `Unrestricted` as follows:
 ```ps1
-PS C:\Users\Administrator\Scripts> Set-ExecutionPolicy Unrestricted
+Invoke-WebRequest -Uri https://github.com/SilentCircle/sso-integration/archive/master.zip -OutFile SilentCircleSSO.zip
+Add-Type -assembly "system.io.compression.filesystem"
+[io.compression.zipfile]::ExtractToDirectory("SilentCircleSSO.zip", "SilentCircle")
+```
+The files will be in the SilentCircle directory.
 
-Execution Policy Change
-The execution policy helps protect you from cmdlets that you do not trust. Changing the execution policy might expose
-you to the security risks described in the about_Execution_Policies help topic at
-http://go.microsoft.com/fwlink/?LinkID=135170. Do you want to change the execution policy?
-[Y] Yes  [N] No  [S] Suspend  [?] Help (default is "Y"): Y
+```
+PS C:\Users\Administrator> cd .\SilentCircle\sso-integration-master\adfs\3.0\scripts
+
+PS C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts> dir
+
+
+    Directory: C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts
+
+
+Mode                LastWriteTime     Length Name
+----                -------------     ------ ----
+-a---         4/28/2016  11:17 AM      10750 Add-SilentCircleRelyingPartyTrust.ps1
+-a---         4/28/2016  11:17 AM       3330 Remove-SilentCircleRelyingPartyTrust.ps1
 ```
 
 ---
@@ -73,9 +73,14 @@ Get-Help .\Remove-SilentCircleRelyingPartyTrust.ps1 -Full
 
 ---
 
-### Running the cmdlet to add Silent Circle as a Relying Party
+### Adding Silent Circle as a Relying Party
 
-First decide if you want to use an Active Directory group to restrict which users may use Silent Circle, using an Issuance Authorization Rule that the cmdlet will create for you. If you do decide to go ahead, ensure you know the group name and that it is visible on your system. For example, let's say the group is named 'Silent Circle Enterprise User'. Using `Get-ADGroup`, you can find out if the group is known.
+First decide if you want to use an Active Directory group to restrict which
+users may use Silent Circle, using an Issuance Authorization Rule that the
+cmdlet will create for you. If you do decide to go ahead, ensure you know the
+group name and that it is visible on your system. For example, let's say the
+group is named 'Silent Circle Enterprise User'. Using `Get-ADGroup`, you can
+find out if the group is known.
 
 ```ps1
 > Get-ADGroup -Identity 'Silent Circle Enterprise User'
@@ -93,7 +98,8 @@ SID               : S-1-5-21-207668378-2981979776-1947477811-1112
 
 ---
 
-In this example, we'll assume you have added the abovenamed group and want to create an Issuance Authorization Rule. Here's the command and sample output.
+In this example, we'll assume you have added the abovenamed group and want to
+create an Issuance Authorization Rule. Here's the command and sample output.
 
 ```ps1
 PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
@@ -102,7 +108,8 @@ PS C:\Users\Administrator\Scripts>
 
 **That's all there is to it. You're done.**
 
-All that's left now is to test the integration. If you want to see what was created, and you don't want to run the cmdlet again, you can do it like this:
+All that's left now is to test the integration. If you want to see what was
+created, and you don't want to run the cmdlet again, you can do it like this:
 
 ---
 
@@ -116,7 +123,9 @@ PS C:\Users\Administrator\Scripts> Get-AdfsClient -ClientId SCEntClient
 
 ---
 
-If you run the command a second time, you get warning messages telling you that the Relying Party trust and OAuth 2.0 client exist, and the cmdlet will not take any action:
+If you run the command a second time, you get warning messages telling you that
+the Relying Party trust and OAuth 2.0 client exist, and the cmdlet will not
+take any action:
 
 ```ps1
 PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
@@ -126,7 +135,8 @@ WARNING: Client ID already exists: SCEntClient; skipping creation.
 
 ---
 
-If you're not happy with the results, you can tell the command to first clear out the trust and client before running:
+If you're not happy with the results, you can tell the command to first clear
+out the trust and client before running:
 
 ```ps1
 PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User' -DeleteBeforeCreating
@@ -135,7 +145,8 @@ PS C:\Users\Administrator\Scripts>
 
 ---
 
-Finally, if you want to remove all traces of the integration, you can use the `Remove-SilentCircleRelyingPartyTrust.ps1` cmdlet:
+Finally, if you want to remove all traces of the integration, you can use the
+`Remove-SilentCircleRelyingPartyTrust.ps1` cmdlet:
 
 ```ps1
 PS C:\Users\Administrator\Scripts> .\Remove-SilentCircleRelyingPartyTrust.ps1
@@ -144,21 +155,23 @@ Removed AdfsClient -TargetClientId SCEntClient
 
 ```
 
-If you want more detail on what's going on behind the scenes, you can add the `-Verbose` option, as follows (notice we've used the `-DeleteBeforeCreating` option too:
+If you want more detail on what's going on behind the scenes, you can add the
+`-Verbose` option, as follows (notice we've used the `-DeleteBeforeCreating`
+option too:
 
 ```ps1
 PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User' -Verbose -DeleteBeforeCreating
 VERBOSE: Group SID for 'Silent Circle Enterprise User': 'S-1-5-21-207668378-2981979776-1947477811-1112'
 VERBOSE: Removed AdfsRelyingPartyTrust -TargetName 'Silent Circle Enterprise Client'
 VERBOSE: Added AdfsRelyingPartyTrust -Name Silent Circle Enterprise Client
-VERBOSE: Set IssuanceAuthorizationRules 'Silent Circle Enterprise Client': 
+VERBOSE: Set IssuanceAuthorizationRules 'Silent Circle Enterprise Client':
 @RuleTemplate = "Authorization"
 @RuleName = "Silent Circle Enterprise User"
 c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid",
    Value =~ "^(?i)S-1-5-21-207668378-2981979776-1947477811-1112$"]
 => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit",
          Value = "PermitUsersWithClaim");
-VERBOSE: Set IssuanceTransformRules 'Silent Circle Enterprise Client': 
+VERBOSE: Set IssuanceTransformRules 'Silent Circle Enterprise Client':
 @RuleName = "Silent Circle Enterprise Client Mapping"
 c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname",
    Issuer == "AD AUTHORITY"]
@@ -170,43 +183,43 @@ VERBOSE: Created Relying Party Trust:
 
 AllowedAuthenticationClassReferences : {}
 AutoUpdateEnabled                    : False
-DelegationAuthorizationRules         : 
+DelegationAuthorizationRules         :
 EncryptionCertificateRevocationCheck : CheckChainExcludeRoot
 PublishedThroughProxy                : False
 IssuanceAuthorizationRules           : @RuleTemplate = "Authorization"
                                        @RuleName = "Silent Circle Enterprise User"
                                        c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid", Value =~ "^(?i)S-1-5-21-207668378-2981979776-1947477811-1112$"]
                                         => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit", Value = "PermitUsersWithClaim");
-                                       
-                                       
+
+
 SigningCertificateRevocationCheck    : CheckChainExcludeRoot
-WSFedEndpoint                        : 
+WSFedEndpoint                        :
 AdditionalWSFedEndpoint              : {}
 ClaimsProviderName                   : {}
 IssuanceTransformRules               : @RuleName = "Silent Circle Enterprise Client Mapping"
                                        c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname", Issuer == "AD AUTHORITY"]
                                         => issue(store = "Active Directory", types = ("sub", "email", "name"), query = ";objectGUID,userPrincipalName,displayName;{0}", param = c.Value);
-                                       
-                                       
+
+
 ClaimsAccepted                       : {}
 ConflictWithPublishedPolicy          : False
 EncryptClaims                        : True
 Enabled                              : True
-EncryptionCertificate                : 
+EncryptionCertificate                :
 Identifier                           : {silentcircle-entapi://rpid}
 LastMonitoredTime                    : 1/1/1900 12:00:00 AM
-LastPublishedPolicyCheckSuccessful   : 
+LastPublishedPolicyCheckSuccessful   :
 LastUpdateTime                       : 1/1/1900 12:00:00 AM
-MetadataUrl                          : 
+MetadataUrl                          :
 MonitoringEnabled                    : False
 Name                                 : Silent Circle Enterprise Client
 NotBeforeSkew                        : 0
 EnableJWT                            : False
 AlwaysRequireAuthentication          : False
-Notes                                : 
-OrganizationInfo                     : 
-ImpersonationAuthorizationRules      : 
-AdditionalAuthenticationRules        : 
+Notes                                :
+OrganizationInfo                     :
+ImpersonationAuthorizationRules      :
+AdditionalAuthenticationRules        :
 ProxyEndpointMappings                : {}
 ProxyTrustedEndpoints                : {}
 ProtocolProfile                      : WsFed-SAML
@@ -454,15 +467,15 @@ ClientType  : Public
 
 ### Add Issuance Authorization Rules
 
-The precise details will vary widely, but most companies will want to restrict
+The precise details will vary widely, but you will most likely want to restrict
 which employees can use Silent Circle. This can be done using Issuance
 Authorization Rules. If an employee tries to authenticate for a Silent Circle
 resource (like Silent Phone), but is blocked by this rule, the employee will be
-prevented from authenticating, and will not be authorized to use Silent Circle.
+prevented by AD FS from authenticating, and will not be authorized to use
+Silent Circle.
 
 In this chapter we add a simple rule based on a user group that was previously
-added. No doubt more elaborate rules will be desired, but this is a good
-starting point.
+added.
 
 * Select the `Issuance Authorization Rules` tab in `Edit Claim Rules`, and
   click on `Add Rule...`.
@@ -543,11 +556,12 @@ OAuth2 client.
 
 In a PowerShell window, type in the following command:
 
-    Add-AdfsClient -ClientId SCEntClient `
-      -Name 'Silent Circle Enterprise Client' `
-      -Description 'Silent Circle Enterprise Client' `
-      -RedirectURI https://accounts.silentcircle.com/sso/oauth2/return/,https://accounts-dev.silentcircle.com/sso/oauth2/return/,https://localsc.ch/sso/oauth2/return/,http://localsc.ch:8000/sso/oauth2/return/
-
+```ps1
+Add-AdfsClient -ClientId SCEntClient `
+  -Name 'Silent Circle Enterprise Client' `
+  -Description 'Silent Circle Enterprise Client' `
+  -RedirectURI https://accounts.silentcircle.com/sso/oauth2/return/,https://accounts-dev.silentcircle.com/sso/oauth2/return/,https://localsc.ch/sso/oauth2/return/,http://localsc.ch:8000/sso/oauth2/return/
+```
 
 To check it, type in
 
@@ -568,6 +582,28 @@ BuiltIn     : False
 Enabled     : True
 ClientType  : Public
 ```
+
+<!--
+
+TODO
+
+## Onboarding Process
+
+* Phone call
+* Do this on test system
+* Do acceptance testing on testem for correct turnup
+* Once compelte send us an email saying its provided
+* Please provide us with 5 test accounts
+* We validate interop on test system
+* Turn up on production system - follow same test
+* Complete acceptance testing process
+* Send us an email saying its complete, we validate
+* We declare that its done
+* List of domains
+* What do they need to provide us?
+* What do we need from them?
+* They must accept the integration - tc says an email is acceptable.
+-->
 
 # Appendixes
 
@@ -598,15 +634,15 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccou
 ## Silent Circle AD FS Issuance Authorization Rules (Example only)
 <a name="sscafiar"></a>
 
-Most enterprises will want to restrict which of their users are allowed to use
-Silent Circle. Their AD FS configuration will need Issuance Authorization Rules
+You will probably want to restrict which of your users are allowed to use
+Silent Circle. Your AD FS configuration will need Issuance Authorization Rules
 that only allow a subset of users to be authorized. When an unauthorized user
-tries to sign on to the enterprise SSO site, the sign-on attempt will be
-rejected by the enterprise (not by Silent Circle).
+tries to sign on to your AD FS site, the sign-on attempt will be rejected by
+your site (not by Silent Circle).
 
-Rules will differ widely depending on the organizational policies, so it is not
-possible to provide more than a sample rule set. The following rule allows only
-users that belong to a group with Group Security ID
+Rules will differ widely depending on your organizational policies, so it is
+not possible to provide more than a sample rule set. The following rule allows
+only users that belong to a group with Group Security ID
 `S-1-5-21-207668378-2981979776-1947477811-1112`:
 
 **AD FS Rule Code**
