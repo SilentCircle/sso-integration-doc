@@ -21,8 +21,8 @@ Windows PowerShell.
 
 ---
 
-<a name="scups"></a>
 ### Configure using PowerShell cmdlets
+<a name="scups"></a>
 
 Some PowerShell cmdlets are available for download from Silent Circle's [GitHub
 SSO repository](https://github.com/SilentCircle/sso-integration) that can
@@ -250,8 +250,8 @@ ClientType  : Public
 
 ---
 
-<a name="scutg"></a>
 ### Configure using the AD FS GUI Tools
+<a name="scutg"></a>
 
 #### In Server Manager, select `Tools > AD FS Management`.
 
