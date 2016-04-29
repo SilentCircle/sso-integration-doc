@@ -17,7 +17,7 @@ The integration procedure on your end consists of the steps below.
 
 * A [configuration procedure](#sccp), which configures the trust
   relationship between Silent Circle and your AD FS infrastructure;
-* An [integration test procedure](#scitp), in which you run through
+* An [acceptance test procedure](#scatp), in which you run through
   a set of acceptance tests to ensure that the integration is
   successful.
 
@@ -596,11 +596,145 @@ Enabled     : True
 ClientType  : Public
 ```
 
-<a name="scitp"> </a>
+<a name="scatp"></a>
 
-## Integration Test Procedure
+## Acceptance Test Procedure
 
 At this stage, the integration configuration is done, and now we need to test it.
+
+### T1: Provision Silent Phone using SSO
+
+#### Test equipment
+
+* Test device: An Apple iPhone using iOS 9.3.1 or later.
+* Network connection: WiFi with unrestricted inbound and outbound
+  firewall.
+
+#### Preconditions
+
+* Test user has valid credentials and an active account on your federated
+  identity system.
+* Test user's account belongs to a group in your environment that is
+  authorized to use Silent Circle.
+
+#### Procedure
+
+* Ensure that the test device has no Silent Phone installed. If it
+  does, uninstall it.
+* Download and install Silent Phone from the Apple App Store.
+* Launch Silent Phone and accept notifications, if prompted.
+* You should see a login form on the device.
+* Attempt to sign on the test user. The user id will be in the form
+  `user@example.com`.
+* You should be taken to your company's SSO sign-on page.
+* Enter the user's credentials and send the form.
+* Depending on your policies, you may be required to engage in a
+  multi-factor authentication process or other activities that are
+  part of the regular single sign-on process. It is assumed that you
+  are able to complete these successfully.
+* After a brief pause while the app provisions with Silent Circle,
+  you should be presented with the app's main page.
+* Ensure that you can interact with the app by changing to the
+  message view, the call view, looking at the settings, and so on.
+* Ensure that the user's name and email address are displayed
+  correctly.
+
+#### Acceptance criteria
+
+* User is presented with your single sign-on page.
+* User's credentials are accepted by your SSO environment.
+* Silent Phone app is provisioned and user is able to interact with
+  it.
+* User's name and email address are displayed correctly.
+
+---
+
+### T2: Sign On to Silent Circle Web using SSO
+
+#### Test equipment
+
+* Test device: A modern web browser.
+* Network connection: WiFi with unrestricted inbound and outbound
+  firewall.
+
+#### Preconditions
+
+* Test user has valid credentials and an active account on your federated
+  identity system.
+* Test user's account belongs to a group in your environment that is
+  authorized to use Silent Circle.
+
+#### Procedure
+
+* Ensure that you are signed out of your SSO environment.
+* Browse to one of the following links:
+    * If using test environment: https://accounts-dev.silentcircle.com/
+    * If using production environment: https://accounts.silentcircle.com/
+* You should see a Silent Circle login form on the browser.
+* Click on the link to login with SSO.
+* Attempt to sign on the test user. The user id will be in the form
+  `user@example.com`.
+* You should be taken to your company's SSO sign-on page.
+* Enter the user's credentials and send the form.
+* Depending on your policies, you may be required to engage in a
+  multi-factor authentication process or other activities that are
+  part of the regular single sign-on process. It is assumed that you
+  are able to complete these successfully.
+* You should be presented with the user's account page. If this is
+  the first time the user has signed on to the web site, some
+  conditions may need to be accepted.
+* Check that the user's name and email address are displayed
+  correctly.
+
+#### Acceptance criteria
+
+* User is presented with your single sign-on page.
+* User's credentials are accepted by your SSO environment.
+* User is granted access to that users' Silent Circle home page.
+* User's name and email address are displayed correctly.
+
+---
+
+### T3: Silent Phone SSO (unauthorized user)
+
+The purpose of this test is to ensure that your federation group
+policy, authorizing Silent Circle access only to users who
+comply with that policy, rejects users that should not be
+authorized.
+
+#### Test equipment
+
+* Test device: An Apple iPhone using iOS 9.3.1 or later.
+* Network connection: WiFi with unrestricted inbound and outbound
+  firewall.
+
+#### Preconditions
+
+* Test user has valid credentials and an active account on your
+  federated identity system.
+* Test user's account **does not** belong to the group in your
+  environment that is authorized to use Silent Circle.
+
+#### Procedure
+
+* Ensure that the test device has no Silent Phone installed. If it
+  does, uninstall it.
+* Download and install Silent Phone from the Apple App Store.
+* Launch Silent Phone and accept notifications, if prompted.
+* You should see a login form on the device.
+* Attempt to sign on the test user. The user id will be in the form
+  `user@example.com`.
+* You should be taken to your company's SSO sign-on page.
+* Enter the user's credentials and send the form.
+* The user's access should be rejected.
+
+#### Acceptance criteria
+
+* User is presented with your single sign-on page.
+* User's credentials are rejected by your SSO environment with a
+  suitable error message.
+
+---
 
 # Appendixes
 
