@@ -70,7 +70,8 @@ be integrated and we can move on to testing.
 
 ## Acceptance Testing
 
-**TODO**
+The acceptance tests are part of the integration document, so please
+refer to that for details.
 
 ## Validation
 
