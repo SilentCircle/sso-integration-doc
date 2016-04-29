@@ -1,15 +1,59 @@
 # ADFS Integration for Silent Circle Enterprise Customers
 
-## System Requirements
+## Introduction
 
-* Microsoft Windows Server 2012 R2
-* Microsoft Active Directory Federation Services 3.0
+This document details how to integrate Silent Circle with your
+federated identity management system, in this case Active Directory
+Federation Services, so your users can be authenticated, and
+authorized to use Silent Circle, via their Single Sign-on
+credentials.
 
-## Configuration Steps
+We recommend first doing an integration between Silent Circle's test
+systems and your test systems, if at all possible.  Once this is
+done, the next step would be to repeat the integration between
+Silent Circle's production systems and your production systems.
+
+The integration procedure on your end consists of the steps below.
+
+* A [configuration procedure](#sccp), which configures the trust
+  relationship between Silent Circle and your AD FS infrastructure;
+* An [integration test procedure](#scitp), in which you run through
+  a set of acceptance tests to ensure that the integration is
+  successful.
+
+Please see the SSO Customer Integration Overview for a higher-level
+view of the integration procedure.
+
+---
+
+## System requirements
+
+Silent Circle supports Active Directory Federation Services (ADFS),
+qualified as follows.
+
+* Windows Server 2012 R2 operating system.
+* [ADFS 3.0][], using [OAuth 2.0][RFC6749] Authorization Code Flow.
+* Claim Rule Configuration such that
+    * ADFS issues OAuth Refresh Tokens to all devices, along with
+      the Access Tokens.
+    * ADFS must always require authentication (so as not to allow
+      existing SSO credentials to be used).
+    * The above claim rule requirements can be met by using
+      [Silent Circle AD FS Issuance Transform Rules](#sscafitr).
+    * We support optional issuance authentication rules. An example
+      of these rules may be found in
+      [Silent Circle AD FS Issuance Authentication Rules](#sscafiar).
+* Silent Circle Relying Party Client Configuration ([Appendix C](#sscafrpis))
+
+---
+
+<a name="sccp"></a>
+
+## Configuration Procedure
 
 ### Configure Active Directory Federation Services (ADFS)
 
-This is where we add the Silent Circle trust relationship. There are two ways
+This is where you add the Silent Circle trust relationship. There are two ways
 of doing this:
 
 * [Configure using Windows PowerShell cmdlets](#scups) provided by Silent Circle.
@@ -22,49 +66,18 @@ Windows PowerShell.
 ---
 
 <a name="scups"></a>
+
 ### Configure using PowerShell cmdlets
 
-Some PowerShell cmdlets are available for download from Silent Circle's [GitHub
-SSO repository](https://github.com/SilentCircle/sso-integration) that can
-assist with automating Silent Circle's AD FS integration.
-
-To download, you can clone the GitHub repository as follows:
-
-    git clone https://github.com/SilentCircle/sso-integration.git
-
-You can also download the repository as a ZIP file using
-[this link](https://github.com/SilentCircle/sso-integration/archive/master.zip).
-
-From PowerShell, you can download and extract the ZIP file as follows:
-
-```ps1
-Invoke-WebRequest -Uri https://github.com/SilentCircle/sso-integration/archive/master.zip -OutFile SilentCircleSSO.zip
-Add-Type -assembly "system.io.compression.filesystem"
-[io.compression.zipfile]::ExtractToDirectory("SilentCircleSSO.zip", "SilentCircle")
-```
-The files will be in the SilentCircle directory.
-
-```
-PS C:\Users\Administrator> cd .\SilentCircle\sso-integration-master\adfs\3.0\scripts
-
-PS C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts> dir
-
-
-    Directory: C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts
-
-
-Mode                LastWriteTime     Length Name
-----                -------------     ------ ----
--a---         4/28/2016  11:17 AM      10750 Add-SilentCircleRelyingPartyTrust.ps1
--a---         4/28/2016  11:17 AM       3330 Remove-SilentCircleRelyingPartyTrust.ps1
-```
+PowerShell cmdlets to assist with integration are available for download.
+Please download and install them as described in [Appendix C](#sscafrpis).
 
 ---
 
-#### Accessing Help Documentation
+#### Cmdlet Help Documentation
 
 The cmdlets have detailed on-line help documentation that can be seen by
-running the following commands:
+running the following commands in the same directory as the cmdlets:
 
 ```ps1
 Get-Help .\Add-SilentCircleRelyingPartyTrust.ps1 -Full
@@ -73,7 +86,7 @@ Get-Help .\Remove-SilentCircleRelyingPartyTrust.ps1 -Full
 
 ---
 
-### Adding Silent Circle as a Relying Party
+### Add Silent Circle as a Relying Party
 
 First decide if you want to use an Active Directory group to restrict which
 users may use Silent Circle, using an Issuance Authorization Rule that the
@@ -106,10 +119,8 @@ PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -Issu
 PS C:\Users\Administrator\Scripts>
 ```
 
-**That's all there is to it. You're done.**
-
-All that's left now is to test the integration. If you want to see what was
-created, and you don't want to run the cmdlet again, you can do it like this:
+If you want to see what was created, and you don't want to run the cmdlet
+again, you can do it like this:
 
 ---
 
@@ -251,6 +262,7 @@ ClientType  : Public
 ---
 
 <a name="scutg"></a>
+
 ### Configure using the AD FS GUI Tools
 
 #### In Server Manager, select `Tools > AD FS Management`.
@@ -268,6 +280,7 @@ ClientType  : Public
 ![Launch Add Relying Party Trust Wizard](images/adfs_002.png  "Launch Add Relying Party Trust Wizard")
 
 ---
+
 #### Start the `Add Relying Party Trust` Wizard
 
 ![Start Add Relying Party Trust Wizard](images/adfs_003.png  "Start Add Relying Party Trust Wizard")
@@ -583,32 +596,17 @@ Enabled     : True
 ClientType  : Public
 ```
 
-<!--
+<a name="scitp"> </a>
 
-TODO
+## Integration Test Procedure
 
-## Onboarding Process
-
-* Phone call
-* Do this on test system
-* Do acceptance testing on testem for correct turnup
-* Once compelte send us an email saying its provided
-* Please provide us with 5 test accounts
-* We validate interop on test system
-* Turn up on production system - follow same test
-* Complete acceptance testing process
-* Send us an email saying its complete, we validate
-* We declare that its done
-* List of domains
-* What do they need to provide us?
-* What do we need from them?
-* They must accept the integration - tc says an email is acceptable.
--->
+At this stage, the integration configuration is done, and now we need to test it.
 
 # Appendixes
 
-## Silent Circle AD FS Issuance Transform Rules
 <a name="sscafitr"></a>
+
+## Appendix A: Silent Circle AD FS Issuance Transform Rules
 
 * Claim store issuer: Active Directory
 * Claim Type: `http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname`
@@ -631,8 +629,9 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccou
       param = c.Value);
 ```
 
-## Silent Circle AD FS Issuance Authorization Rules (Example only)
 <a name="sscafiar"></a>
+
+## Appendix B: Silent Circle AD FS Issuance Authorization Rules (Example only)
 
 You will probably want to restrict which of your users are allowed to use
 Silent Circle. Your AD FS configuration will need Issuance Authorization Rules
@@ -653,4 +652,59 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid",
  => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit",
           Value = "PermitUsersWithClaim");
 ```
+
+<a name="sscafrpis"></a>
+
+## Appendix C: Silent Circle AD FS Relying Party Integration Cmdlets
+
+Some PowerShell cmdlets are available for download from Silent
+Circle's [GitHub SSO repository][SC.GitHub.SSO] that can assist with
+automating Silent Circle's AD FS integration.
+
+To download, you can clone the GitHub repository as follows:
+
+    git clone https://github.com/SilentCircle/sso-integration.git
+
+You can also download the repository as a ZIP file using
+[this link](https://github.com/SilentCircle/sso-integration/archive/master.zip).
+
+From PowerShell, you can download and extract the ZIP file as follows:
+
+```ps1
+Invoke-WebRequest -Uri https://github.com/SilentCircle/sso-integration/archive/master.zip -OutFile SilentCircleSSO.zip
+Add-Type -assembly "system.io.compression.filesystem"
+[io.compression.zipfile]::ExtractToDirectory("SilentCircleSSO.zip", "SilentCircle")
+```
+
+The files will be in the SilentCircle directory.
+
+```
+PS C:\Users\Administrator> cd .\SilentCircle\sso-integration-master\adfs\3.0\scripts
+
+PS C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts> dir
+
+
+    Directory: C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts
+
+
+Mode                LastWriteTime     Length Name
+----                -------------     ------ ----
+-a---         4/28/2016  11:17 AM      10750 Add-SilentCircleRelyingPartyTrust.ps1
+-a---         4/28/2016  11:17 AM       3330 Remove-SilentCircleRelyingPartyTrust.ps1
+```
+
+<!-- References -->
+
+[SC.GitHub.SSO]: https://github.com/SilentCircle/sso-integration "SC GitHub SSO repository"
+[ADFS 3.0]: https://technet.microsoft.com/en-us/library/hh831502.aspx "Active Directory Federation Services v3.0"
+[CORS]: http://www.w3.org/TR/access-control/ "Cross-Origin Resource Sharing"
+[RFC6749]: http://tools.ietf.org/html/rfc6749 "RFC6749 (OAuth 2.0)"
+[OAuth.Assertions]: http://tools.ietf.org/OAuth.Assertions/draft-ietf-oauth-assertions-17 "OAuth.Assertions"
+[OAuth.JWT]: http://tools.ietf.org/OAuth.JWT/draft-ietf-oauth-jwt-bearer-10 "OAuth.JWT"
+[OAuth.Responses]: http://openid.net/specs/oauth-v2-multiple-response-types-1_0.html "OAuth 2.0 Multiple Response Type Encoding Practices"
+
+<link href="styles/sc-metro-vibes-light.css" rel="stylesheet">
+
+<!--- vim: set textwidth=68 formatoptions+=t et : -->
+
 
