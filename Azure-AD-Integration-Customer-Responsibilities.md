@@ -11,6 +11,13 @@ term.
 Because the v2.0 endpoint has some limitations that impact us, this
 document presents the classic endpoint first.
 
+### Integration Automation
+
+PowerShell cmdlets to automate this process are a work in progress.
+There are currently some issues with the Azure PowerShell cmdlets,
+[one of which][MS.Azure.PowerShell.Issue.2107] prevents full automation.
+
+
 ### The v2.0 endpoint
 
 Microsoft has this to say about the `V2.0 endpoint`:
@@ -18,7 +25,7 @@ Microsoft has this to say about the `V2.0 endpoint`:
 > In the past, an app developer who wanted to support both Microsoft
 accounts and Azure Active Directory was required to integrate with
 two separate systems. We've now introduced a new authentication API
-version that enables you to sign in users in with both types of
+version that enables you to sign on users in with both types of
 accounts using the Azure AD system. This converged authentication
 system is known as the v2.0 endpoint. With the v2.0 endpoint, one
 simple integration allows you to reach an audience that spans
@@ -49,7 +56,7 @@ But these two will not be accepted at the same time:
 ### Sign on to Azure Management Portal
 
 * Navigate to the [Azure Management Portal][MS.Azure.Manage] and
-  sign in as a Global Administrator.
+  sign on as a Global Administrator.
 
 ### Select Active Directory
 
@@ -108,7 +115,7 @@ But these two will not be accepted at the same time:
 
 ### Your app has been added!
 
-* Under "GET STARTED", click on "ENABLE YOUR USERS TO SIGN IN".
+* Under "GET STARTED", click on "ENABLE YOUR USERS TO SIGN ON".
 
 ![](images/aad-v1-ms-oidc-008.png "Your app has been added!")
 
@@ -213,7 +220,7 @@ security concerns with these credentials.
 ### Sign on
 
 * Navigate to [Microsoft App Dev site][MS.Apps.Dev].
-* Sign in to the Application Registration Portal using your MS
+* Sign on to the Application Registration Portal using your MS
   credentials.
 
 ### Add application
@@ -283,6 +290,8 @@ security concerns with these credentials.
 [MS.Apps.Dev]: https://apps.dev.microsoft.com/
 [MS.Azure.AD.ADv2Compare]: https://azure.microsoft.com/en-us/documentation/articles/active-directory-v2-compare/
 [MS.Azure.Manage]: https://manage.windowsazure.com/
+[MS.Azure.PowerShell.Issue.2107]: https://github.com/Azure/azure-powershell/issues/2107
+
 
 <link href="styles/sc-metro-vibes-light.css" rel="stylesheet">
 
