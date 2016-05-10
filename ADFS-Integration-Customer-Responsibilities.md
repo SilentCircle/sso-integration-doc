@@ -24,8 +24,6 @@ The integration procedure on your end consists of the steps below.
 Please see the SSO Customer Integration Overview for a higher-level
 view of the integration procedure.
 
----
-
 ## System requirements
 
 Silent Circle supports Active Directory Federation Services (ADFS),
@@ -45,8 +43,6 @@ qualified as follows.
       [Silent Circle AD FS Issuance Authentication Rules](#sscafiar).
 * Silent Circle Relying Party Client Configuration ([Appendix C](#sscafrpis))
 
----
-
 <a name="sccp"></a>
 
 ## Configuration Procedure
@@ -63,16 +59,12 @@ The GUI tools show you step-by-step what is happening, while the cmdlet is much
 quicker and easier to use for people that have access to, and experience with,
 Windows PowerShell.
 
----
-
 <a name="scups"></a>
 
 ### Configure using PowerShell cmdlets
 
 PowerShell cmdlets to assist with integration are available for download.
 Please download and install them as described in [Appendix C](#sscafrpis).
-
----
 
 #### Cmdlet Help Documentation
 
@@ -83,8 +75,6 @@ running the following commands in the same directory as the cmdlets:
 Get-Help .\Add-SilentCircleRelyingPartyTrust.ps1 -Full
 Get-Help .\Remove-SilentCircleRelyingPartyTrust.ps1 -Full
 ```
-
----
 
 ### Add Silent Circle as a Relying Party
 
@@ -109,8 +99,6 @@ SamAccountName    : Silent Circle Enterprise User
 SID               : S-1-5-21-207668378-2981979776-1947477811-1112
 ```
 
----
-
 In this example, we'll assume you have added the abovenamed group and want to
 create an Issuance Authorization Rule. Here's the command and sample output.
 
@@ -122,8 +110,6 @@ PS C:\Users\Administrator\Scripts>
 If you want to see what was created, and you don't want to run the cmdlet
 again, you can do it like this:
 
----
-
 ```ps1
 PS C:\Users\Administrator\Scripts> Get-AdfsRelyingPartyTrust -Name 'Silent Circle Enterprise Client'
 ... output omitted ...
@@ -131,8 +117,6 @@ PS C:\Users\Administrator\Scripts> Get-AdfsRelyingPartyTrust -Name 'Silent Circl
 PS C:\Users\Administrator\Scripts> Get-AdfsClient -ClientId SCEntClient
 ... output omitted ...
 ```
-
----
 
 If you run the command a second time, you get warning messages telling you that
 the Relying Party trust and OAuth 2.0 client exist, and the cmdlet will not
@@ -144,8 +128,6 @@ WARNING: Relying Party trust already exists: Silent Circle Enterprise Client; sk
 WARNING: Client ID already exists: SCEntClient; skipping creation.
 ```
 
----
-
 If you're not happy with the results, you can tell the command to first clear
 out the trust and client before running:
 
@@ -153,8 +135,6 @@ out the trust and client before running:
 PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User' -DeleteBeforeCreating
 PS C:\Users\Administrator\Scripts>
 ```
-
----
 
 Finally, if you want to remove all traces of the integration, you can use the
 `Remove-SilentCircleRelyingPartyTrust.ps1` cmdlet:
@@ -259,38 +239,25 @@ Enabled     : True
 ClientType  : Public
 ```
 
----
-
 <a name="scutg"></a>
 
 ### Configure using the AD FS GUI Tools
 
 #### In Server Manager, select `Tools > AD FS Management`.
 
----
-
 ![AD FS Management](images/adfs_001.png  "AD FS Management")
-
----
 
 #### Launch the `Add Relying Party Trust` Wizard
 
----
-
 ![Launch Add Relying Party Trust Wizard](images/adfs_002.png  "Launch Add Relying Party Trust Wizard")
-
----
 
 #### Start the `Add Relying Party Trust` Wizard
 
 ![Start Add Relying Party Trust Wizard](images/adfs_003.png  "Start Add Relying Party Trust Wizard")
 
-
 #### Select `Enter data about the relying party manually`
 
 ![Enter data about the relying party manually](images/adfs_004.png  "Enter data about the relying party manually")
-
----
 
 #### Add Silent Circle information
 
@@ -300,25 +267,17 @@ ClientType  : Public
 
 ![Add Silent Circle information](images/adfs_005.png  "Add Silent Circle information")
 
----
-
 #### Select AD FS Profile
 
 ![Select AD FS Profile](images/adfs_006.png)
-
----
 
 #### Skip Token Encryption Certificate
 
 ![Skip Token Encryption Certificate](images/adfs_007.png "Skip Token Encryption Certificate")
 
----
-
 #### Skip WS-Federation and SAML
 
 ![Skip WS-Federation and SAML](images/adfs_008.png  "Skip WS-Federation and SAML")
-
----
 
 #### Add Relying Party trust identifier
 
@@ -327,21 +286,15 @@ ClientType  : Public
 
 ![Add Relying Party trust identifier](images/adfs_009.png  "Add Relying Party trust identifier")
 
----
-
 * Click `Next` to accept the trust identifier.
 
 ![Accept trust identifier](images/adfs_010.png  "Accept trust identifier")
-
----
 
 #### Optional: Configure MFA
 
 * We skip this step here, but you are free to configure MFA as desired.
 
 ![Optional: Configure MFA](images/adfs_011.png  "Optional: Configure MFA")
-
----
 
 #### Choose Issuance Authorization Rules
 
@@ -350,21 +303,15 @@ ClientType  : Public
 
 ![Choose Issuance Authorization Rule](images/adfs_012.png  "Choose Issuance Authorization Rule")
 
----
-
 #### Add Trust to the database
 
 ![Add Trust to the database](images/adfs_013.png  "Add Trust to the database")
-
----
 
 #### Close the wizard
 
 * Click `Close`. This will launch the `Edit Claims Rules Dialog`.
 
 ![Close the wizard](images/adfs_014.png  "Close the wizard")
-
----
 
 ### Configure Claims Rules
 
@@ -376,13 +323,9 @@ ClientType  : Public
 
 ![Add Issuance Transform Rule](images/adfs_015.png  "Add Issuance Transform Rule")
 
----
-
 #### Accept the `Send LDAP Attributes as Claims` template.
 
 ![Accept the Send LDAP Attributes as Claims template](images/adfs_016.png  "Accept the Send LDAP Attributes as Claims template")
-
----
 
 #### Configure Temp Claim Rule
 
@@ -391,8 +334,6 @@ ClientType  : Public
 * Select `Active Directory` as the attribute store.
 
 ![Configure Claim Rule](images/adfs_017.png  "Configure Claim Rule")
-
----
 
 #### Add LDAP attributes
 
@@ -404,21 +345,13 @@ ClientType  : Public
 
 ![Add LDAP Attributes - objectGUID](images/adfs_019.png  "Add LDAP Attributes - objectGUID")
 
----
-
 ![Add LDAP Attributes - UPN](images/adfs_020.png  "Add LDAP Attributes - UPN")
 
----
-
 ![Add LDAP Attributes - displayName](images/adfs_021.png  "Add LDAP Attributes - displayName")
-
----
 
 ![Add LDAP Attributes - Keeps uppercasing Name](images/adfs_022.png  "Add LDAP Attributes - Keeps uppercasing Name")
 
 * Click `Finish`.
-
----
 
 #### Copy Claim Rule Language
 
@@ -427,21 +360,13 @@ ClientType  : Public
 
 ![Edit rule](images/adfs_024.png  "Edit rule")
 
----
-
 ![View rule language](images/adfs_025.png  "View rule language")
 
----
-
 ![Copy rule language](images/adfs_027.png  "Copy rule language")
-
----
 
 * Click `OK`, then `Cancel` to exit the rule editor.
 
 ![Exit rule editor](images/adfs_029.png  "Exit rule editor")
-
----
 
 #### Add Custom Rule
 
@@ -449,19 +374,13 @@ ClientType  : Public
 
 ![Add custom rule](images/adfs_030.png  "Add custom rule")
 
----
-
 ![Send claims using a custom rule](images/adfs_032.png  "Send claims using a custom rule")
-
----
 
 * Name it "Send Silent Circle Enterprise Client Claims` and paste the copied
   text into it.
 * Delete the text `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/`.
 
 ![Fix name claim](images/adfs_033.png  "Fix name claim")
-
----
 
 *  What should be left is `name`.
 
@@ -475,8 +394,6 @@ ClientType  : Public
 
 * Delete the `Temp` rule.
 * Press `OK`.
-
----
 
 ### Add Issuance Authorization Rules
 
@@ -495,27 +412,19 @@ added.
 
 ![Add issuance authorization rule](images/adfs_039.png  "Add issuance authorization rule")
 
----
-
 * Select `Permit or Deny Users Based on an Incoming Claim`.
 
 ![Select Permit or Deny Users Based on an Incoming Claim](images/adfs_040.png  "Select `Permit or Deny Users Based on an Incoming Claim")
-
----
 
 * Type in a rule name like `Authorize Silent Circle group members`.
 * Select `Group SID` as an Incoming Claim Type.
 
 ![Authorize Silent Circle group members](images/adfs_041.png  "Authorize Silent Circle group members")
 
----
-
 * Ensuring that the claim type is still `Group SID`, click `Browse` to select
   an incoming claim rule.
 
 ![Select an incoming claim rule](images/adfs_042.png  "Select an incoming claim rule")
-
----
 
 * In the `Select User, Computer, or Group` dialog box, start typing in the
   group name. In this example, we've typed in `Silent Cir` and deliberately not
@@ -523,15 +432,11 @@ added.
 
 ![Select User, Computer, or Group](images/adfs_043.png  "Select User, Computer, or Group")
 
----
-
 * Now, click `Check Names` and the name will be auto-completed if possible.
   Otherwise, type in the full group name and click `Check names` again,
   followed by `OK`.
 
 ![Click Check Names](images/adfs_044.png  "Click Check Names")
-
----
 
 * Ensure that all the fields are correct as shown:
     * Incoming claim type: `Group SID`
@@ -541,26 +446,18 @@ added.
 
 ![Ensure that all the fields are correct](images/adfs_045.png  "Ensure that all the fields are correct")
 
----
-
 * Remove the default rule, `Permit Access to All Users`.
 
 ![Remove default rule](images/adfs_046.png  "Remove default rule")
-
----
 
 * There should only be one rule left; the one we just added. Click `OK`.
 
 ![](images/adfs_048.png)
 
----
-
 * Finally, we see the `Silent Circle Relying Party` Enterprise Trust rule we've
   been working on.
 
 ![Silent Circle Relying Party Enterprise Trust rule](images/adfs_049.png  "Silent Circle Relying Party Enterprise Trust rule")
-
----
 
 ### Configure Silent Circle ADFS OAuth2 Client
 
@@ -607,8 +504,6 @@ completed, and now we need to test it.
   device.
 * Test series SW should be run at least once with a supporte web
   browser.
-
----
 
 <a name="atpsp1"></a>
 
@@ -657,8 +552,6 @@ completed, and now we need to test it.
   it.
 * User's name and email address are displayed correctly.
 
----
-
 <a name="atpsp2"></a>
 
 ### SP2: Silent Phone SSO (unauthorized user)
@@ -699,8 +592,6 @@ with that policy, rejects users that should not be authorized.
 * User's credentials are rejected by your SSO environment with a
   suitable error message.
 
----
-
 <a name="atpsp3"></a>
 
 ### SP3: Silent Phone SSO (invalid user)
@@ -739,8 +630,6 @@ rejected.
 * User's credentials are rejected by your SSO environment with a
   suitable error message.
 
----
-
 <a name="atpsp3"></a>
 
 ### SP4: Silent Phone SSO sanity test
@@ -775,8 +664,6 @@ communicate with, each other.
 * Users are able to send and receive SP text messages.
 * Users are able to make and receive SP to SP voice calls, and
   converse with each other.
-
----
 
 <a name="atpsw1"></a>
 
@@ -825,8 +712,6 @@ communicate with, each other.
 * User is granted access to that users' Silent Circle home page.
 * User's name and email address are displayed correctly.
 
----
-
 <a name="atpsw2"></a>
 
 ### SW2: Sign On to Silent Circle Web using SSO (unauthorized user)
@@ -869,8 +754,6 @@ with that policy, rejects users that should not be authorized.
 * User's credentials are rejected by your SSO environment with a
   suitable error message.
 
----
-
 <a name="atpsw3"></a>
 
 ### SW3: Sign On to Silent Circle Web using SSO (invalid user)
@@ -910,8 +793,6 @@ rejected.
 * User is presented with your single sign-on page.
 * User's credentials are rejected by your SSO environment with a
   suitable error message.
-
----
 
 <a name="atpsw4"></a>
 
@@ -954,8 +835,6 @@ forces a reauthentication, and the new user is signed on correctly.
 * Test user 2 is granted access to that users' Silent Circle home
   page.
 * Test user 2's name and email address are displayed correctly.
-
----
 
 # Appendixes
 
