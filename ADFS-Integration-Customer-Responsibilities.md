@@ -23,7 +23,7 @@ you'll need to take on your systems.
 
 ## Table of Contents
 
--   [System requirements](#system-requirements)
+-   [System Requirements](#system-requirements)
 -   [Integration Overview](#integration-overview)
 -   [Configuration Procedure](#configuration-procedure)
     -   [Configure Active Directory Federation
@@ -401,7 +401,7 @@ ClientType  : Public
 ![Skip WS-Federation and SAML](images/adfs_008.png
   "Skip WS-Federation and SAML")
 
-#### Add Relying Party trust identifier
+#### Add Relying Party Trust Identifier
 
 * Enter `silentcircle-entapi://rpid` in `Relying party trust identifier` and
   click `Add`
@@ -429,12 +429,12 @@ ClientType  : Public
 ![Choose Issuance Authorization Rule](images/adfs_012.png
   "Choose Issuance Authorization Rule")
 
-#### Add Trust to the database
+#### Add Trust to the Database
 
 ![Add Trust to the database](images/adfs_013.png
   "Add Trust to the database")
 
-#### Close the wizard
+#### Close the Wizard
 
 * Click `Close`. This will launch the `Edit Claims Rules Dialog`.
 
@@ -452,7 +452,7 @@ ClientType  : Public
 ![Add Issuance Transform Rule](images/adfs_015.png
   "Add Issuance Transform Rule")
 
-#### Accept the `Send LDAP Attributes as Claims` template.
+#### Accept the `Send LDAP Attributes as Claims` Template
 
 ![Accept the Send LDAP Attributes as Claims template](images/adfs_016.png
   "Accept the Send LDAP Attributes as Claims template")
@@ -466,7 +466,7 @@ ClientType  : Public
 ![Configure Claim Rule](images/adfs_017.png
   "Configure Claim Rule")
 
-#### Add LDAP attributes
+#### Add LDAP Attributes
 
 * Add the following LDAP attribute to Outgoing claim type mappings:
   * `objectGUID` to `sub`
@@ -524,7 +524,7 @@ ClientType  : Public
 
 * Click `Finish`.
 
-#### Delete temp rule
+#### Delete Temp Rule
 
 ![Delete Temp rule](images/adfs_036.png "Delete Temp rule")
 
@@ -656,7 +656,7 @@ completed, and now we need to test it.
 
 ### SP1: Provision Silent Phone using SSO
 
-#### Test equipment
+#### Test Equipment
 
 * Test device: A supported smartphone.
 * Network connection: WiFi with unrestricted inbound and outbound
@@ -691,7 +691,7 @@ completed, and now we need to test it.
 * Ensure that the user's name and email address are displayed
   correctly.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * User is presented with your single sign-on page.
 * User's credentials are accepted by your SSO environment.
@@ -701,13 +701,13 @@ completed, and now we need to test it.
 
 <a name="atpsp2"></a>
 
-### SP2: Silent Phone SSO (unauthorized user)
+### SP2: Silent Phone SSO (Unauthorized User)
 
 The purpose of this test is to ensure that your federation group
 policy, authorizing Silent Circle access only to users who comply
 with that policy, rejects users that should not be authorized.
 
-#### Test equipment
+#### Test Equipment
 
 * Test device: A supported smartphone.
 * Network connection: WiFi with unrestricted inbound and outbound
@@ -733,7 +733,7 @@ with that policy, rejects users that should not be authorized.
 * Enter the user's credentials and send the form.
 * The user's access should be rejected.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * User is presented with your single sign-on page.
 * User's credentials are rejected by your SSO environment with a
@@ -741,7 +741,7 @@ with that policy, rejects users that should not be authorized.
 
 <a name="atpsp3"></a>
 
-### SP3: Silent Phone SSO (invalid user)
+### SP3: Silent Phone SSO (Invalid User)
 
 The purpose of this test is to ensure that attempts to sign on by a
 user that has no active account on your federated identity system is
@@ -771,7 +771,7 @@ rejected.
 * Enter the user's credentials and send the form.
 * The user's access should be rejected.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * User is presented with your single sign-on page.
 * User's credentials are rejected by your SSO environment with a
@@ -779,13 +779,13 @@ rejected.
 
 <a name="atpsp3"></a>
 
-### SP4: Silent Phone SSO sanity test
+### SP4: Silent Phone SSO Sanity Test
 
 The purpose of this test is to ensure that users who provisioned
 their Silent Phone applications using SSO can locate, and
 communicate with, each other.
 
-#### Test equipment
+#### Test Equipment
 
 * Test devices: Two supported smartphones.
 * Network connection: WiFi with unrestricted inbound and outbound
@@ -806,7 +806,7 @@ communicate with, each other.
   this excludes calls made to regular landline or mobile numbers.
 * Repeat the above, except that user B initiates the communication.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * Users are able to send and receive SP text messages.
 * Users are able to make and receive SP to SP voice calls, and
@@ -816,7 +816,7 @@ communicate with, each other.
 
 ### SW1: Sign On to Silent Circle Web using SSO
 
-#### Test equipment
+#### Test Equipment
 
 * Test device: A supported web browser.
 * Network connection: WiFi with unrestricted inbound and outbound
@@ -852,7 +852,7 @@ communicate with, each other.
 * Check that the user's name and email address are displayed
   correctly.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * User is presented with your single sign-on page.
 * User's credentials are accepted by your SSO environment.
@@ -861,13 +861,13 @@ communicate with, each other.
 
 <a name="atpsw2"></a>
 
-### SW2: Sign On to Silent Circle Web using SSO (unauthorized user)
+### SW2: Sign On to Silent Circle Web using SSO (Unauthorized User)
 
 The purpose of this test is to ensure that your federation group
 policy, authorizing Silent Circle access only to users who comply
 with that policy, rejects users that should not be authorized.
 
-#### Test equipment
+#### Test Equipment
 
 * Test device: A supported web browser.
 * Network connection: WiFi with unrestricted inbound and outbound
@@ -895,7 +895,7 @@ with that policy, rejects users that should not be authorized.
 * Enter the user's credentials and send the form.
 * The user's access should be rejected.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * User is presented with your single sign-on page.
 * User's credentials are rejected by your SSO environment with a
@@ -903,13 +903,13 @@ with that policy, rejects users that should not be authorized.
 
 <a name="atpsw3"></a>
 
-### SW3: Sign On to Silent Circle Web using SSO (invalid user)
+### SW3: Sign On to Silent Circle Web using SSO (Invalid User)
 
 The purpose of this test is to ensure that attempts to sign on by a
 user that has no active account on your federated identity system is
 rejected.
 
-#### Test equipment
+#### Test Equipment
 
 * Test device: A supported web browser.
 * Network connection: WiFi with unrestricted inbound and outbound
@@ -935,7 +935,7 @@ rejected.
 * Enter the fake user's credentials and send the form.
 * The user's access should be rejected.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * User is presented with your single sign-on page.
 * User's credentials are rejected by your SSO environment with a
@@ -943,13 +943,13 @@ rejected.
 
 <a name="atpsw4"></a>
 
-### SW4: Sign out of Silent Circle Web
+### SW4: Sign Out of Silent Circle Web
 
 The purpose of this test is to ensure that when you sign out of
 Silent Circle web and sign in as a different user, the SSO system
 forces a reauthentication, and the new user is signed on correctly.
 
-#### Test equipment
+#### Test Equipment
 
 * Test device: A supported web browser.
 * Network connection: WiFi with unrestricted inbound and outbound
@@ -975,7 +975,7 @@ forces a reauthentication, and the new user is signed on correctly.
 * Sign off test user 1.
 * Sign on test user 2.
 
-#### Acceptance criteria
+#### Acceptance Criteria
 
 * Test user 2 is presented with your single sign-on page.
 * Test user 2's credentials are accepted by your SSO environment.
@@ -1012,7 +1012,7 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccou
 
 <a name="sscafiar"></a>
 
-### Appendix B: Silent Circle AD FS Issuance Authorization Rules (Example only)
+### Appendix B: Silent Circle AD FS Issuance Authorization Rules (Example Only)
 
 You will probably want to restrict which of your users are allowed to use
 Silent Circle. Your AD FS configuration will need Issuance Authorization Rules
