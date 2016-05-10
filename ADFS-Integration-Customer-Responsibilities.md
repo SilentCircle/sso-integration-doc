@@ -8,9 +8,9 @@ your users can be authenticated and authorized to use Silent Circle
 via their Single Sign-On credentials.
 
 We recommend first doing an integration between Silent Circle's test
-systems and your test systems, if at all possible.  Once this is
-done, the next step would be to repeat the integration between
-Silent Circle's production systems and your production systems.
+systems and your test systems.  The next step is to repeat the
+integration between Silent Circle's production systems and your
+production systems.
 
 The integration procedure on your end consists of the steps below.
 
