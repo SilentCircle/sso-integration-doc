@@ -208,7 +208,6 @@ create an Issuance Authorization Rule. Here's the command and sample output.
 ```ps1
 PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1
     -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
-PS C:\Users\Administrator\Scripts>
 ```
 
 If you want to see what was created, and you don't want to run the cmdlet
@@ -242,7 +241,6 @@ out the trust and client before running:
 PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1
     -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
     -DeleteBeforeCreating
-PS C:\Users\Administrator\Scripts>
 ```
 
 Finally, if you want to remove all traces of the integration, you can use the
@@ -252,7 +250,6 @@ Finally, if you want to remove all traces of the integration, you can use the
 PS C:\Users\Administrator\Scripts> .\Remove-SilentCircleRelyingPartyTrust.ps1
 Removed AdfsRelyingPartyTrust -TargetName Silent Circle Enterprise Client
 Removed AdfsClient -TargetClientId SCEntClient
-
 ```
 
 If you want more detail on what's going on behind the scenes, you can add the
