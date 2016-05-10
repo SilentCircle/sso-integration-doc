@@ -53,18 +53,18 @@ you'll need to take on your systems.
 Silent Circle supports Active Directory Federation Services (ADFS),
 qualified as follows.
 
-* Windows Server 2012 R2 operating system.
-* [ADFS 3.0][], using [OAuth 2.0][RFC6749] Authorization Code Flow.
+* Windows Server 2012 R2 operating system
+* [ADFS 3.0][], using [OAuth 2.0][RFC6749] Authorization Code Flow
 * Claim Rule Configuration such that
     * ADFS issues OAuth Refresh Tokens to all devices, along with
-      the Access Tokens.
+      the Access Tokens
     * ADFS must always require authentication (so as not to allow
-      existing SSO credentials to be used).
+      existing SSO credentials to be used)
     * The above claim rule requirements can be met by using
-      [Silent Circle AD FS Issuance Transform Rules](#sscafitr).
-    * We support optional issuance authentication rules. An example
-      of these rules may be found in
-      [Silent Circle AD FS Issuance Authentication Rules](#sscafiar).
+      [Silent Circle AD FS Issuance Transform Rules](#sscafitr)
+    * We support optional issuance authentication rules; an example of
+      these rules may be found in
+      [Silent Circle AD FS Issuance Authentication Rules](#sscafiar)
 * Silent Circle Relying Party Client Configuration ([Appendix C](#sscafrpis))
 
 ## Integration Overview
@@ -75,28 +75,28 @@ our SSO integration process.
 ### Phase 1: Pre-Production
 
 * Integration (Phase 1): Silent Circle and your team integrate with
-  our SSO test environments.
+  our SSO test environments
 
 * Acceptance testing (Phase 1): You test the integration, and once
   satisfied, send an email to the appropriate Silent Circle account
-  manager indicating your acceptance of the Phase 1 integration.
+  manager indicating your acceptance of the Phase 1 integration
 
-* Validation: Silent Circle validates the test integration. To do
-  this, we would need some accounts on your test environment.
+* Validation: Silent Circle validates the test integration; to do
+  this, we would need some accounts on your test environment
 
 ### Phase 2: Production
 
 * Integration (Phase 2): Silent Circle and your team integrate with
-  our SSO production environments.
+  our SSO production environments
 
 * Acceptance testing (Phase 2): You test the integration, and once
   satisfied, send an email to the appropriate Silent Circle account
   manager indicating your acceptance of the Phase 2 (production)
-  integration.
+  integration
 
-* Validation: Silent Circle validates the production integration. To
+* Validation: Silent Circle validates the production integration; to
   do this, we would need some accounts on your production
-  environment, which you can disable once validation is complete.
+  environment, which you can disable once validation is complete
 
 ### Integration
 
@@ -155,8 +155,8 @@ integration is complete.
 This is where you add the Silent Circle trust relationship. There are two ways
 of doing this:
 
-* [Configure using Windows PowerShell cmdlets](#scups) provided by Silent Circle.
-* [Configure using the AD FS GUI tools](#scutg).
+* [Configure using Windows PowerShell cmdlets](#scups) provided by Silent Circle
+* [Configure using the AD FS GUI tools](#scutg)
 
 The GUI tools show you step-by-step what is happening, while the cmdlet is much
 quicker and easier to use for people that have access to, and experience with,
@@ -381,8 +381,8 @@ ClientType  : Public
 #### Add Silent Circle information
 
 * Enter "Silent Circle Enterprise Client" in `Display name`, and any notes that
-  might be of interest.
-* Click `Next`.
+  might be of interest
+* Click `Next`
 
 ![Add Silent Circle information](images/adfs_005.png
   "Add Silent Circle information")
@@ -409,14 +409,14 @@ ClientType  : Public
 ![Add Relying Party trust identifier](images/adfs_009.png
   "Add Relying Party trust identifier")
 
-* Click `Next` to accept the trust identifier.
+* Click `Next` to accept the trust identifier
 
 ![Accept trust identifier](images/adfs_010.png
   "Accept trust identifier")
 
 #### Optional: Configure MFA
 
-* We skip this step here, but you are free to configure MFA as desired.
+* We skip this step here, but you are free to configure MFA as desired
 
 ![Optional: Configure MFA](images/adfs_011.png
   "Optional: Configure MFA")
@@ -424,7 +424,7 @@ ClientType  : Public
 #### Choose Issuance Authorization Rules
 
 * We will restrict access in a later step; for now, permit all users to access
-  this Relying Party.
+  this Relying Party
 
 ![Choose Issuance Authorization Rule](images/adfs_012.png
   "Choose Issuance Authorization Rule")
@@ -436,7 +436,7 @@ ClientType  : Public
 
 #### Close the Wizard
 
-* Click `Close`. This will launch the `Edit Claims Rules Dialog`.
+* Click `Close`; this will launch the `Edit Claims Rules Dialog`
 
 ![Close the wizard](images/adfs_014.png
   "Close the wizard")
@@ -446,7 +446,7 @@ ClientType  : Public
 #### Add Issuance Transform Rule
 
 * The `Edit Claims Rules for Silent Circle Enterprise Client` wizard should be
-  running now.
+  running now
 * On the `Issuance Transform Rules` tab, click on `Add Rule...`
 
 ![Add Issuance Transform Rule](images/adfs_015.png
@@ -460,8 +460,8 @@ ClientType  : Public
 #### Configure Temp Claim Rule
 
 * Type "Temp" as the claim rule name (we'll be copying this later and deleting
-  it).
-* Select `Active Directory` as the attribute store.
+  it)
+* Select `Active Directory` as the attribute store
 
 ![Configure Claim Rule](images/adfs_017.png
   "Configure Claim Rule")
@@ -472,7 +472,7 @@ ClientType  : Public
   * `objectGUID` to `sub`
   * `User-Principal-Name` to `email`
   * `displayName` to `name` (note that the Wizard keeps changing this to `Name`
-    - allow it to do so for now; we'll change it later).
+    - allow it to do so for now; we'll change it later)
 
 ![Add LDAP Attributes - objectGUID](images/adfs_019.png
   "Add LDAP Attributes - objectGUID")
@@ -486,12 +486,12 @@ ClientType  : Public
 ![Add LDAP Attributes - Keeps uppercasing Name](images/adfs_022.png
   "Add LDAP Attributes - Keeps uppercasing Name")
 
-* Click `Finish`.
+* Click `Finish`
 
 #### Copy Claim Rule Language
 
-* Click `Edit Rule...` and then `View Rule Language`. Copy the selected text
-  (right-click, then `Copy`).
+* Click `Edit Rule...` and then `View Rule Language`; copy the
+  selected text (right-click, then `Copy`)
 
 ![Edit rule](images/adfs_024.png "Edit rule")
 
@@ -499,13 +499,13 @@ ClientType  : Public
 
 ![Copy rule language](images/adfs_027.png "Copy rule language")
 
-* Click `OK`, then `Cancel` to exit the rule editor.
+* Click `OK`, then `Cancel` to exit the rule editor
 
 ![Exit rule editor](images/adfs_029.png "Exit rule editor")
 
 #### Add Custom Rule
 
-* `Add rule...` to create a new rule based on `Send Claims Using a Custom Rule`.
+* `Add rule...` to create a new rule based on `Send Claims Using a Custom Rule`
 
 ![Add custom rule](images/adfs_030.png "Add custom rule")
 
@@ -513,23 +513,23 @@ ClientType  : Public
   "Send claims using a custom rule")
 
 * Name it "Send Silent Circle Enterprise Client Claims` and paste the copied
-  text into it.
-* Delete the text `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/`.
+  text into it
+* Delete the text `http://schemas.xmlsoap.org/ws/2005/05/identity/claims/`
 
 ![Fix name claim](images/adfs_033.png "Fix name claim")
 
-*  What should be left is `name`.
+*  What should be left is `name`
 
 ![Fix name claim 2](images/adfs_035.png "Fix name claim 2")
 
-* Click `Finish`.
+* Click `Finish`
 
 #### Delete Temp Rule
 
 ![Delete Temp rule](images/adfs_036.png "Delete Temp rule")
 
-* Delete the `Temp` rule.
-* Press `OK`.
+* Delete the `Temp` rule
+* Press `OK`
 
 ### Add Issuance Authorization Rules
 
@@ -544,7 +544,7 @@ In this chapter we add a simple rule based on a user group that was previously
 added.
 
 * Select the `Issuance Authorization Rules` tab in `Edit Claim Rules`, and
-  click on `Add Rule...`.
+  click on `Add Rule...`
 
 ![Add issuance authorization rule](images/adfs_039.png
   "Add issuance authorization rule")
@@ -554,50 +554,50 @@ added.
 ![Select Permit or Deny Users Based on an Incoming Claim](images/adfs_040.png
   "Select `Permit or Deny Users Based on an Incoming Claim")
 
-* Type in a rule name like `Authorize Silent Circle group members`.
-* Select `Group SID` as an Incoming Claim Type.
+* Type in a rule name like `Authorize Silent Circle group members`
+* Select `Group SID` as an Incoming Claim Type
 
 ![Authorize Silent Circle group members](images/adfs_041.png
   "Authorize Silent Circle group members")
 
 * Ensuring that the claim type is still `Group SID`, click `Browse` to select
-  an incoming claim rule.
+  an incoming claim rule
 
 ![Select an incoming claim rule](images/adfs_042.png
   "Select an incoming claim rule")
 
-* In the `Select User, Computer, or Group` dialog box, start typing in the
-  group name. In this example, we've typed in `Silent Cir` and deliberately not
-  completed it.
+* In the `Select User, Computer, or Group` dialog box, start typing in
+  the group name; in this example, we've typed in `Silent Cir` and
+  deliberately not completed it
 
 ![Select User, Computer, or Group](images/adfs_043.png
   "Select User, Computer, or Group")
 
-* Now, click `Check Names` and the name will be auto-completed if possible.
-  Otherwise, type in the full group name and click `Check names` again,
-  followed by `OK`.
+* Now, click `Check Names` and the name will be auto-completed if possible;
+  otherwise, type in the full group name and click `Check names` again,
+  followed by `OK`
 
 ![Click Check Names](images/adfs_044.png "Click Check Names")
 
 * Ensure that all the fields are correct as shown:
     * Incoming claim type: `Group SID`
     * Incoming claim value: (varies by installation)
-    * Radio button selected: `Permit access to users with this incoming claim`.
-* Click `Finish`.
+    * Radio button selected: `Permit access to users with this incoming claim`
+* Click `Finish`
 
 ![Ensure that all the fields are correct](images/adfs_045.png
   "Ensure that all the fields are correct")
 
-* Remove the default rule, `Permit Access to All Users`.
+* Remove the default rule, `Permit Access to All Users`
 
 ![Remove default rule](images/adfs_046.png "Remove default rule")
 
-* There should only be one rule left; the one we just added. Click `OK`.
+* There should only be one rule left; the one we just added; click `OK`
 
 ![](images/adfs_048.png)
 
 * Finally, we see the `Silent Circle Relying Party` Enterprise Trust rule we've
-  been working on.
+  been working on
 
 ![Silent Circle Relying Party Enterprise Trust rule](images/adfs_049.png
   "Silent Circle Relying Party Enterprise Trust rule")
@@ -648,9 +648,9 @@ At this stage, the integration configuration should have been
 completed, and now we need to test it.
 
 * Test series SP must be run once for each supported Silent Phone
-  device.
+  device
 * Test series SW should be run at least once with a supporte web
-  browser.
+  browser
 
 <a name="atpsp1"></a>
 
@@ -658,46 +658,46 @@ completed, and now we need to test it.
 
 #### Test Equipment
 
-* Test device: A supported smartphone.
+* Test device: A supported smartphone
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Test user has valid credentials and an active account on your
-  federated identity system.
+  federated identity system
 * Test user's account belongs to a group in your environment that is
-  authorized to use Silent Circle.
+  authorized to use Silent Circle
 
 #### Procedure
 
-* Ensure that the test device has no Silent Phone installed. If it
-  does, uninstall it.
-* Download and install Silent Phone from the appropriate app store.
-* Launch Silent Phone and accept notifications, if prompted.
-* You should see a login form on the device.
-* Attempt to sign on the test user. The user id will be in the form
-  `user@example.com`.
-* You should be taken to your company's SSO sign-on page.
-* Enter the user's credentials and send the form.
+* Ensure that the test device has no Silent Phone installed; if it
+  does, uninstall it
+* Download and install Silent Phone from the appropriate app store
+* Launch Silent Phone and accept notifications, if prompted
+* You should see a login form on the device
+* Attempt to sign on the test user; the user id will be in the form
+  `user@example.com`
+* You should be taken to your company's SSO sign-on page
+* Enter the user's credentials and send the form
 * Depending on your policies, you may be required to engage in a
   multi-factor authentication process or other activities that are
-  part of the regular single sign-on process. It is assumed that you
-  are able to complete these successfully.
+  part of the regular single sign-on process; it is assumed that you
+  are able to complete these successfully
 * After a brief pause while the app provisions with Silent Circle,
-  you should be presented with the app's main page.
+  you should be presented with the app's main page
 * Ensure that you can interact with the app by changing to the
-  message view, the call view, looking at the settings, and so on.
+  message view, the call view, looking at the settings, and so on
 * Ensure that the user's name and email address are displayed
-  correctly.
+  correctly
 
 #### Acceptance Criteria
 
-* User is presented with your single sign-on page.
-* User's credentials are accepted by your SSO environment.
+* User is presented with your single sign-on page
+* User's credentials are accepted by your SSO environment
 * Silent Phone app is provisioned and user is able to interact with
-  it.
-* User's name and email address are displayed correctly.
+  it
+* User's name and email address are displayed correctly
 
 <a name="atpsp2"></a>
 
@@ -709,35 +709,35 @@ with that policy, rejects users that should not be authorized.
 
 #### Test Equipment
 
-* Test device: A supported smartphone.
+* Test device: A supported smartphone
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Test user has valid credentials and an active account on your
-  federated identity system.
+  federated identity system
 * Test user's account **does not** belong to the group in your
-  environment that is authorized to use Silent Circle.
+  environment that is authorized to use Silent Circle
 
 #### Procedure
 
-* Ensure that the test device has no Silent Phone installed. If it
-  does, uninstall it.
-* Download and install Silent Phone from the appropriate app store.
-* Launch Silent Phone and accept notifications, if prompted.
-* You should see a login form on the device.
-* Attempt to sign on the test user. The user id will be in the form
-  `user@example.com`.
-* You should be taken to your company's SSO sign-on page.
-* Enter the user's credentials and send the form.
-* The user's access should be rejected.
+* Ensure that the test device has no Silent Phone installed; if it
+  does, uninstall it
+* Download and install Silent Phone from the appropriate app store
+* Launch Silent Phone and accept notifications, if prompted
+* You should see a login form on the device
+* Attempt to sign on the test user; the user id will be in the form
+  `user@example.com`
+* You should be taken to your company's SSO sign-on page
+* Enter the user's credentials and send the form
+* The user's access should be rejected
 
 #### Acceptance Criteria
 
-* User is presented with your single sign-on page.
+* User is presented with your single sign-on page
 * User's credentials are rejected by your SSO environment with a
-  suitable error message.
+  suitable error message
 
 <a name="atpsp3"></a>
 
@@ -749,33 +749,33 @@ rejected.
 
 #### Test equipment
 
-* Test device: A supported smartphone.
+* Test device: A supported smartphone
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Test user has invalid or nonexistent credentials on your federated
-  identity system.
+  identity system
 
 #### Procedure
 
-* Ensure that the test device has no Silent Phone installed. If it
-  does, uninstall it.
-* Download and install Silent Phone from the appropriate app store.
-* Launch Silent Phone and accept notifications, if prompted.
-* You should see a login form on the device.
-* Attempt to sign on the fake test user. The user id will be in the
-  form `user@example.com`.
-* You should be taken to your company's SSO sign-on page.
-* Enter the user's credentials and send the form.
-* The user's access should be rejected.
+* Ensure that the test device has no Silent Phone installed; if it
+  does, uninstall it
+* Download and install Silent Phone from the appropriate app store
+* Launch Silent Phone and accept notifications, if prompted
+* You should see a login form on the device
+* Attempt to sign on the fake test user; the user id will be in the
+  form `user@example.com`
+* You should be taken to your company's SSO sign-on page
+* Enter the user's credentials and send the form
+* The user's access should be rejected
 
 #### Acceptance Criteria
 
-* User is presented with your single sign-on page.
+* User is presented with your single sign-on page
 * User's credentials are rejected by your SSO environment with a
-  suitable error message.
+  suitable error message
 
 <a name="atpsp3"></a>
 
@@ -787,30 +787,30 @@ communicate with, each other.
 
 #### Test Equipment
 
-* Test devices: Two supported smartphones.
+* Test devices: Two supported smartphones
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Test users have valid credentials and an active account on your
-  federated identity system.
+  federated identity system
 * Test user accounts belong to a group in your environment that is
-  authorized to use Silent Circle.
+  authorized to use Silent Circle
 
 #### Procedure
 
-* For each smartphone, perform test [SP1](#atpsp1).
-* User A texts user B with the Silent Phone application.
-* User A calls user B with the Silent Phone application. Note that
-  this excludes calls made to regular landline or mobile numbers.
-* Repeat the above, except that user B initiates the communication.
+* For each smartphone, perform test [SP1](#atpsp1)
+* User A texts user B with the Silent Phone application
+* User A calls user B with the Silent Phone application; note that
+  this excludes calls made to regular landline or mobile numbers
+* Repeat the above, except that user B initiates the communication
 
 #### Acceptance Criteria
 
-* Users are able to send and receive SP text messages.
+* Users are able to send and receive SP text messages
 * Users are able to make and receive SP to SP voice calls, and
-  converse with each other.
+  converse with each other
 
 <a name="atpsw1"></a>
 
@@ -818,46 +818,46 @@ communicate with, each other.
 
 #### Test Equipment
 
-* Test device: A supported web browser.
+* Test device: A supported web browser
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Test user has valid credentials and an active account on your
-  federated identity system.
+  federated identity system
 * Test user's account belongs to a group in your environment that is
-  authorized to use Silent Circle.
+  authorized to use Silent Circle
 
 #### Procedure
 
 * Ensure that you are signed out of your SSO environment and out of
-  Silent Circle Web.
+  Silent Circle Web
 * Browse to one of the following links:
     * If using test environment: https://accounts-dev.silentcircle.com/
     * If using production environment: https://accounts.silentcircle.com/
-* You should see a Silent Circle login form on the browser.
-* Click on the link to login with SSO.
-* Attempt to sign on the test user. The user id will be in the form
-  `user@example.com`.
-* You should be taken to your company's SSO sign-on page.
-* Enter the user's credentials and send the form.
+* You should see a Silent Circle login form on the browser
+* Click on the link to login with SSO
+* Attempt to sign on the test user; the user id will be in the form
+  `user@example.com`
+* You should be taken to your company's SSO sign-on page
+* Enter the user's credentials and send the form
 * Depending on your policies, you may be required to engage in a
   multi-factor authentication process or other activities that are
-  part of the regular single sign-on process. It is assumed that you
-  are able to complete these successfully.
-* You should be presented with the user's account page. If this is
+  part of the regular single sign-on process; it is assumed that you
+  are able to complete these successfully
+* You should be presented with the user's account page; if this is
   the first time the user has signed on to the web site, some
-  conditions may need to be accepted.
+  conditions may need to be accepted
 * Check that the user's name and email address are displayed
-  correctly.
+  correctly
 
 #### Acceptance Criteria
 
-* User is presented with your single sign-on page.
-* User's credentials are accepted by your SSO environment.
-* User is granted access to that users' Silent Circle home page.
-* User's name and email address are displayed correctly.
+* User is presented with your single sign-on page
+* User's credentials are accepted by your SSO environment
+* User is granted access to that users' Silent Circle home page
+* User's name and email address are displayed correctly
 
 <a name="atpsw2"></a>
 
@@ -869,37 +869,37 @@ with that policy, rejects users that should not be authorized.
 
 #### Test Equipment
 
-* Test device: A supported web browser.
+* Test device: A supported web browser
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Test user has valid credentials and an active account on your
-  federated identity system.
+  federated identity system
 * Test user's account **does not** belong to a group in your
-  environment that is authorized to use Silent Circle.
+  environment that is authorized to use Silent Circle
 
 #### Procedure
 
 * Ensure that you are signed out of your SSO environment and out of
-  Silent Circle Web.
+  Silent Circle Web
 * Browse to one of the following links:
     * If using test environment: https://accounts-dev.silentcircle.com/
     * If using production environment: https://accounts.silentcircle.com/
-* You should see a Silent Circle login form on the browser.
-* Click on the link to login with SSO.
-* Attempt to sign on the test user. The user id will be in the form
-  `user@example.com`.
-* You should be taken to your company's SSO sign-on page.
-* Enter the user's credentials and send the form.
-* The user's access should be rejected.
+* You should see a Silent Circle login form on the browser
+* Click on the link to login with SSO
+* Attempt to sign on the test user; the user id will be in the form
+  `user@example.com`
+* You should be taken to your company's SSO sign-on page
+* Enter the user's credentials and send the form
+* The user's access should be rejected
 
 #### Acceptance Criteria
 
-* User is presented with your single sign-on page.
+* User is presented with your single sign-on page
 * User's credentials are rejected by your SSO environment with a
-  suitable error message.
+  suitable error message
 
 <a name="atpsw3"></a>
 
@@ -911,35 +911,35 @@ rejected.
 
 #### Test Equipment
 
-* Test device: A supported web browser.
+* Test device: A supported web browser
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Test user has invalid or nonexistent credentials on your federated
-  identity system.
+  identity system
 
 #### Procedure
 
 * Ensure that you are signed out of your SSO environment and out of
-  Silent Circle Web.
+  Silent Circle Web
 * Browse to one of the following links:
     * If using test environment: https://accounts-dev.silentcircle.com/
     * If using production environment: https://accounts.silentcircle.com/
-* You should see a Silent Circle login form on the browser.
-* Click on the link to login with SSO.
-* Attempt to sign on the test user. The user id will be in the form
-  `user@example.com`.
-* You should be taken to your company's SSO sign-on page.
-* Enter the fake user's credentials and send the form.
-* The user's access should be rejected.
+* You should see a Silent Circle login form on the browser
+* Click on the link to login with SSO
+* Attempt to sign on the test user; the user id will be in the form
+  `user@example.com`
+* You should be taken to your company's SSO sign-on page
+* Enter the fake user's credentials and send the form
+* The user's access should be rejected
 
 #### Acceptance Criteria
 
-* User is presented with your single sign-on page.
+* User is presented with your single sign-on page
 * User's credentials are rejected by your SSO environment with a
-  suitable error message.
+  suitable error message
 
 <a name="atpsw4"></a>
 
@@ -951,37 +951,37 @@ forces a reauthentication, and the new user is signed on correctly.
 
 #### Test Equipment
 
-* Test device: A supported web browser.
+* Test device: A supported web browser
 * Network connection: WiFi with unrestricted inbound and outbound
-  firewall.
+  firewall
 
 #### Preconditions
 
 * Two sets of test user accounts with has valid credentials and
-  active accounts on your federated identity system.
+  active accounts on your federated identity system
 * Both test user's accounts belong to a group in your environment
-  that is authorized to use Silent Circle.
+  that is authorized to use Silent Circle
 
 #### Procedure
 
 * Ensure that you are signed out of your SSO environment and out of
-  Silent Circle Web.
+  Silent Circle Web
 * Browse to one of the following links:
     * If using test environment: https://accounts-dev.silentcircle.com/
     * If using production environment: https://accounts.silentcircle.com/
-* You should see a Silent Circle login form on the browser.
-* Click on the link to login with SSO.
-* Sign on test user 1.
-* Sign off test user 1.
-* Sign on test user 2.
+* You should see a Silent Circle login form on the browser
+* Click on the link to login with SSO
+* Sign on test user 1
+* Sign off test user 1
+* Sign on test user 2
 
 #### Acceptance Criteria
 
-* Test user 2 is presented with your single sign-on page.
-* Test user 2's credentials are accepted by your SSO environment.
+* Test user 2 is presented with your single sign-on page
+* Test user 2's credentials are accepted by your SSO environment
 * Test user 2 is granted access to that users' Silent Circle home
-  page.
-* Test user 2's name and email address are displayed correctly.
+  page
+* Test user 2's name and email address are displayed correctly
 
 ## Appendixes
 
@@ -991,7 +991,7 @@ forces a reauthentication, and the new user is signed on correctly.
 
 * Claim store issuer: Active Directory
 * Claim Type: `http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname`
-* Transforms as shown below.
+* Transforms as shown below
 
 | Active Directory attribute | Silent Circle claim |
 | -------------------------- | --------------------|
