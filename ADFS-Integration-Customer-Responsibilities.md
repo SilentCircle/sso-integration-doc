@@ -89,7 +89,8 @@ find out if the group is known.
 > Get-ADGroup -Identity 'Silent Circle Enterprise User'
 
 
-DistinguishedName : CN=Silent Circle Enterprise User,CN=Users,DC=sso-dev0,DC=silentcircle-inc,DC=org
+DistinguishedName : CN=Silent Circle Enterprise User,
+                    CN=Users,DC=sso-dev0,DC=silentcircle-inc,DC=org
 GroupCategory     : Security
 GroupScope        : Global
 Name              : Silent Circle Enterprise User
@@ -103,7 +104,8 @@ In this example, we'll assume you have added the abovenamed group and want to
 create an Issuance Authorization Rule. Here's the command and sample output.
 
 ```ps1
-PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
+PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1
+    -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
 PS C:\Users\Administrator\Scripts>
 ```
 
@@ -111,7 +113,8 @@ If you want to see what was created, and you don't want to run the cmdlet
 again, you can do it like this:
 
 ```ps1
-PS C:\Users\Administrator\Scripts> Get-AdfsRelyingPartyTrust -Name 'Silent Circle Enterprise Client'
+PS C:\Users\Administrator\Scripts> Get-AdfsRelyingPartyTrust
+  -Name 'Silent Circle Enterprise Client'
 ... output omitted ...
 
 PS C:\Users\Administrator\Scripts> Get-AdfsClient -ClientId SCEntClient
@@ -123,8 +126,10 @@ the Relying Party trust and OAuth 2.0 client exist, and the cmdlet will not
 take any action:
 
 ```ps1
-PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
-WARNING: Relying Party trust already exists: Silent Circle Enterprise Client; skipping creation.
+PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1
+    -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
+WARNING: Relying Party trust already exists: Silent Circle Enterprise Client;
+    skipping creation.
 WARNING: Client ID already exists: SCEntClient; skipping creation.
 ```
 
@@ -132,7 +137,9 @@ If you're not happy with the results, you can tell the command to first clear
 out the trust and client before running:
 
 ```ps1
-PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User' -DeleteBeforeCreating
+PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1
+    -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
+    -DeleteBeforeCreating
 PS C:\Users\Administrator\Scripts>
 ```
 
@@ -151,8 +158,11 @@ If you want more detail on what's going on behind the scenes, you can add the
 option too:
 
 ```ps1
-PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1 -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User' -Verbose -DeleteBeforeCreating
-VERBOSE: Group SID for 'Silent Circle Enterprise User': 'S-1-5-21-207668378-2981979776-1947477811-1112'
+PS C:\Users\Administrator\Scripts> .\Add-SilentCircleRelyingPartyTrust.ps1
+    -IssuanceAuthorizationGroupName 'Silent Circle Enterprise User'
+    -Verbose -DeleteBeforeCreating
+VERBOSE: Group SID for 'Silent Circle Enterprise User':
+    'S-1-5-21-207668378-2981979776-1947477811-1112'
 VERBOSE: Removed AdfsRelyingPartyTrust -TargetName 'Silent Circle Enterprise Client'
 VERBOSE: Added AdfsRelyingPartyTrust -Name Silent Circle Enterprise Client
 VERBOSE: Set IssuanceAuthorizationRules 'Silent Circle Enterprise Client':
@@ -179,17 +189,23 @@ EncryptionCertificateRevocationCheck : CheckChainExcludeRoot
 PublishedThroughProxy                : False
 IssuanceAuthorizationRules           : @RuleTemplate = "Authorization"
                                        @RuleName = "Silent Circle Enterprise User"
-                                       c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid", Value =~ "^(?i)S-1-5-21-207668378-2981979776-1947477811-1112$"]
-                                        => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit", Value = "PermitUsersWithClaim");
+  c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid",
+    Value =~ "^(?i)S-1-5-21-207668378-2981979776-1947477811-1112$"]
+  => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit",
+    Value = "PermitUsersWithClaim");
 
 
 SigningCertificateRevocationCheck    : CheckChainExcludeRoot
 WSFedEndpoint                        :
 AdditionalWSFedEndpoint              : {}
 ClaimsProviderName                   : {}
-IssuanceTransformRules               : @RuleName = "Silent Circle Enterprise Client Mapping"
-                                       c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname", Issuer == "AD AUTHORITY"]
-                                        => issue(store = "Active Directory", types = ("sub", "email", "name"), query = ";objectGUID,userPrincipalName,displayName;{0}", param = c.Value);
+IssuanceTransformRules               :
+  @RuleName = "Silent Circle Enterprise Client Mapping"
+  c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname",
+    Issuer == "AD AUTHORITY"]
+  => issue(store = "Active Directory",
+    types = ("sub", "email", "name"),
+    query = ";objectGUID,userPrincipalName,displayName;{0}", param = c.Value);
 
 
 ClaimsAccepted                       : {}
@@ -230,7 +246,10 @@ IssueOAuthRefreshTokensTo            : AllDevices
 VERBOSE: Removed AdfsClient -ClientId 'SCEntClient'
 VERBOSE: Created AdfsClient:
 
-RedirectUri : {http://localsc.ch:8000/sso/oauth2/return/, https://accounts.silentcircle.com/sso/oauth2/return/, https://accounts-dev.silentcircle.com/sso/oauth2/return/, https://localsc.ch/sso/oauth2/return/}
+RedirectUri : {http://localsc.ch:8000/sso/oauth2/return/,
+    https://accounts.silentcircle.com/sso/oauth2/return/,
+    https://accounts-dev.silentcircle.com/sso/oauth2/return/,
+    https://localsc.ch/sso/oauth2/return/}
 Name        : Silent Circle Enterprise Client
 Description : Silent Circle Enterprise Client
 ClientId    : SCEntClient
@@ -470,7 +489,10 @@ In a PowerShell window, type in the following command:
 Add-AdfsClient -ClientId SCEntClient `
   -Name 'Silent Circle Enterprise Client' `
   -Description 'Silent Circle Enterprise Client' `
-  -RedirectURI https://accounts.silentcircle.com/sso/oauth2/return/,https://accounts-dev.silentcircle.com/sso/oauth2/return/,https://localsc.ch/sso/oauth2/return/,http://localsc.ch:8000/sso/oauth2/return/
+  -RedirectURI https://accounts.silentcircle.com/sso/oauth2/return/,
+    https://accounts-dev.silentcircle.com/sso/oauth2/return/,
+    https://localsc.ch/sso/oauth2/return/,
+    http://localsc.ch:8000/sso/oauth2/return/
 ```
 
 To check it, type in
@@ -483,8 +505,10 @@ Sample output is shown below.
 PS C:\Users\Administrator> Get-AdfsClient 'Silent Circle Enterprise Client'
 
 
-RedirectUri : {http://localsc.ch:8000/sso/oauth2/return/, https://accounts.silentcircle.com/sso/oauth2/return/,
-              https://accounts-dev.silentcircle.com/sso/oauth2/return/, https://localsc.ch/sso/oauth2/return/}
+RedirectUri : {http://localsc.ch:8000/sso/oauth2/return/,
+  https://accounts.silentcircle.com/sso/oauth2/return/,
+  https://accounts-dev.silentcircle.com/sso/oauth2/return/,
+  https://localsc.ch/sso/oauth2/return/}
 Name        : Silent Circle Enterprise Client
 Description : Silent Circle Enterprise Client
 ClientId    : SCEntClient
@@ -905,7 +929,9 @@ You can also download the repository as a ZIP file using
 From PowerShell, you can download and extract the ZIP file as follows:
 
 ```ps1
-Invoke-WebRequest -Uri https://github.com/SilentCircle/sso-integration/archive/master.zip -OutFile SilentCircleSSO.zip
+Invoke-WebRequest
+  -Uri https://github.com/SilentCircle/sso-integration/archive/master.zip
+  -OutFile SilentCircleSSO.zip
 Add-Type -assembly "system.io.compression.filesystem"
 [io.compression.zipfile]::ExtractToDirectory("SilentCircleSSO.zip", "SilentCircle")
 ```
@@ -917,9 +943,7 @@ PS C:\Users\Administrator> cd .\SilentCircle\sso-integration-master\adfs\3.0\scr
 
 PS C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts> dir
 
-
-    Directory: C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts
-
+  Directory: C:\Users\Administrator\SilentCircle\sso-integration-master\adfs\3.0\scripts
 
 Mode                LastWriteTime     Length Name
 ----                -------------     ------ ----
