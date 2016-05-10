@@ -955,11 +955,11 @@ forces a reauthentication, and the new user is signed on correctly.
   page.
 * Test user 2's name and email address are displayed correctly.
 
-# Appendixes
+## Appendixes
 
 <a name="sscafitr"></a>
 
-## Appendix A: Silent Circle AD FS Issuance Transform Rules
+### Appendix A: Silent Circle AD FS Issuance Transform Rules
 
 * Claim store issuer: Active Directory
 * Claim Type: `http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccountname`
@@ -984,7 +984,7 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/windowsaccou
 
 <a name="sscafiar"></a>
 
-## Appendix B: Silent Circle AD FS Issuance Authorization Rules (Example only)
+### Appendix B: Silent Circle AD FS Issuance Authorization Rules (Example only)
 
 You will probably want to restrict which of your users are allowed to use
 Silent Circle. Your AD FS configuration will need Issuance Authorization Rules
@@ -1008,7 +1008,7 @@ c:[Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/groupsid",
 
 <a name="sscafrpis"></a>
 
-## Appendix C: Silent Circle AD FS Relying Party Integration Cmdlets
+### Appendix C: Silent Circle AD FS Relying Party Integration Cmdlets
 
 Some PowerShell cmdlets are available for download from Silent
 Circle's [GitHub SSO repository][SC.GitHub.SSO] that can assist with
