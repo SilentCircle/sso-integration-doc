@@ -940,5 +940,3 @@ Mode                LastWriteTime     Length Name
 <link href="styles/sc-metro-vibes-light.css" rel="stylesheet">
 
 <!--- vim: set textwidth=68 formatoptions+=t et : -->
-
-
