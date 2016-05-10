@@ -110,10 +110,10 @@ configuration process.
 * Agenda
     * Introductions
     * Establish that we understand the requirements correctly
-    * Exchange information needed for the integration.
+    * Exchange information needed for the integration
     * Add Silent Circle as a trusted relying party to your federated
-      identity system.
-    * Do initial sanity testing.
+      identity system
+    * Do initial sanity testing
 
 * Participants
     * Silent Circle account manager
