@@ -20,9 +20,6 @@ The integration procedure on your end consists of the steps below.
   a set of acceptance tests to ensure that the integration is
   successful.
 
-Please see the SSO Customer Integration Overview for a higher-level
-view of the integration procedure.
-
 ## System requirements
 
 Silent Circle supports Active Directory Federation Services (ADFS),
@@ -41,6 +38,85 @@ qualified as follows.
       of these rules may be found in
       [Silent Circle AD FS Issuance Authentication Rules](#sscafiar).
 * Silent Circle Relying Party Client Configuration ([Appendix C](#sscafrpis))
+
+## Integration Overview
+
+In this section we discuss the high level steps and expectations of
+our SSO integration process.
+
+### Phase 1: Pre-Production
+
+* Integration (Phase 1): Silent Circle and your team integrate with
+  our SSO test environments.
+
+* Acceptance testing (Phase 1): You test the integration, and once
+  satisfied, send an email to the appropriate Silent Circle account
+  manager indicating your acceptance of the Phase 1 integration.
+
+* Validation: Silent Circle validates the test integration. To do
+  this, we would need some accounts on your test environment.
+
+### Phase 2: Production
+
+* Integration (Phase 2): Silent Circle and your team integrate with
+  our SSO production environments.
+
+* Acceptance testing (Phase 2): You test the integration, and once
+  satisfied, send an email to the appropriate Silent Circle account
+  manager indicating your acceptance of the Phase 2 (production)
+  integration.
+
+* Validation: Silent Circle validates the production integration. To
+  do this, we would need some accounts on your production
+  environment, which you can disable once validation is complete.
+
+### Integration
+
+Silent Circle's SSO integration experts and your federated identity
+management experts get together on a conference call.
+
+We have found it to be very advantageous to have a screen sharing
+session so that we can offer assistance if issues arise during the
+configuration process.
+
+* Agenda
+    * Introductions
+    * Establish that we understand the requirements correctly
+    * Exchange information needed for the integration.
+    * Add Silent Circle as a trusted relying party to your federated
+      identity system.
+    * Do initial sanity testing.
+
+* Participants
+    * Silent Circle account manager
+    * Silent Circle SSO integration team lead
+    * Your SSO expert
+    * Anyone else who is needed
+
+* Information we need from you
+    * AD FS host's fully-qualified domain name
+    * Federation metadata endpoint
+    * Federation authorization and token endpoints
+    * List of domain names with which your users will sign on
+    * Credentials for 5 (five) test users with which we can sign on
+      via your SSO test environment
+
+Once the call is over, and assuming there were no blocking issues,
+Silent Circle and your federated identity management system should
+be integrated and we can move on to testing.
+
+### Acceptance Testing
+
+During acceptance testing your team will walk through certain steps to
+confirm the integration is fully successful from your perspective.
+These steps are described below in section [Acceptance Test
+Procedure](#scatp).
+
+### Validation
+
+Silent Circle runs through a validation procedure and checks the
+results on our internal systems. Once we complete validation, the
+integration is complete.
 
 <a name="sccp"></a>
 
