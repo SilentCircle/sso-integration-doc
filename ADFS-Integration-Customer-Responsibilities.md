@@ -88,7 +88,6 @@ find out if the group is known.
 ```ps1
 > Get-ADGroup -Identity 'Silent Circle Enterprise User'
 
-
 DistinguishedName : CN=Silent Circle Enterprise User,
                     CN=Users,DC=sso-dev0,DC=silentcircle-inc,DC=org
 GroupCategory     : Security
@@ -194,7 +193,6 @@ IssuanceAuthorizationRules           : @RuleTemplate = "Authorization"
   => issue(Type = "http://schemas.microsoft.com/authorization/claims/permit",
     Value = "PermitUsersWithClaim");
 
-
 SigningCertificateRevocationCheck    : CheckChainExcludeRoot
 WSFedEndpoint                        :
 AdditionalWSFedEndpoint              : {}
@@ -206,7 +204,6 @@ IssuanceTransformRules               :
   => issue(store = "Active Directory",
     types = ("sub", "email", "name"),
     query = ";objectGUID,userPrincipalName,displayName;{0}", param = c.Value);
-
 
 ClaimsAccepted                       : {}
 ConflictWithPublishedPolicy          : False
@@ -239,9 +236,6 @@ SignatureAlgorithm                   : http://www.w3.org/2001/04/xmldsig-more#rs
 TokenLifetime                        : 0
 AllowedClientTypes                   : Public
 IssueOAuthRefreshTokensTo            : AllDevices
-
-
-
 
 VERBOSE: Removed AdfsClient -ClientId 'SCEntClient'
 VERBOSE: Created AdfsClient:
@@ -503,7 +497,6 @@ Sample output is shown below.
 
 ```ps1
 PS C:\Users\Administrator> Get-AdfsClient 'Silent Circle Enterprise Client'
-
 
 RedirectUri : {http://localsc.ch:8000/sso/oauth2/return/,
   https://accounts.silentcircle.com/sso/oauth2/return/,
