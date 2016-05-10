@@ -2,11 +2,10 @@
 
 ## Introduction
 
-This document details how to integrate Silent Circle with your
-federated identity management system, in this case Active Directory
-Federation Services, so your users can be authenticated, and
-authorized to use Silent Circle, via their Single Sign-On
-credentials.
+This document details how to integrate Silent Circle with your Active
+Directory Federation Services federated identity management system so
+your users can be authenticated and authorized to use Silent Circle
+via their Single Sign-On credentials.
 
 We recommend first doing an integration between Silent Circle's test
 systems and your test systems, if at all possible.  Once this is
