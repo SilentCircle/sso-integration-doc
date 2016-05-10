@@ -20,6 +20,33 @@ The integration procedure on your end consists of the steps below.
   a set of acceptance tests to ensure that the integration is
   successful.
 
+## Table of Contents
+
+-   [System requirements](#system-requirements)
+-   [Integration Overview](#integration-overview)
+-   [Configuration Procedure](#configuration-procedure)
+    -   [Configure Active Directory Federation
+        Services (ADFS)](#configure-active-directory-federation-services-adfs)
+    -   [Configure using PowerShell
+        cmdlets](#configure-using-powershell-cmdlets)
+    -   [Add Silent Circle as a Relying
+        Party](#add-silent-circle-as-a-relying-party)
+    -   [Configure using the AD FS GUI
+        Tools](#configure-using-the-ad-fs-gui-tools)
+    -   [Configure Claims Rules](#configure-claims-rules)
+    -   [Add Issuance Authorization
+        Rules](#add-issuance-authorization-rules)
+    -   [Configure Silent Circle ADFS OAuth2
+        Client](#configure-silent-circle-adfs-oauth2-client)
+-   [Acceptance Test Procedure](#acceptance-test-procedure)
+-   [Appendixes](#appendixes)
+    -   [Appendix A: Silent Circle AD FS Issuance Transform
+        Rules](#appendix-a-silent-circle-ad-fs-issuance-transform-rules)
+    -   [Appendix B: Silent Circle AD FS Issuance Authorization Rules](
+          #appendix-b-silent-circle-ad-fs-issuance-authorization-rules-example-only)
+    -   [Appendix C: Silent Circle AD FS Relying Party Integration
+        Cmdlets](#appendix-c-silent-circle-ad-fs-relying-party-integration-cmdlets)
+
 ## System requirements
 
 Silent Circle supports Active Directory Federation Services (ADFS),
