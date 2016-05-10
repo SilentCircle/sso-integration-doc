@@ -2,23 +2,24 @@
 
 ## Introduction
 
-This document details how to integrate Silent Circle with your Active
-Directory Federation Services federated identity management system so
-your users can be authenticated and authorized to use Silent Circle
-via their Single Sign-On credentials.
+This document is a guide for Silent Circle customers who wish to use
+their own ADFS 3.0 authentication system with Silent Circle's platform
+to achieve Single Sign-On.
 
-We recommend first doing an integration between Silent Circle's test
-systems and your test systems.  The next step is to repeat the
-integration between Silent Circle's production systems and your
-production systems.
+Active Directory Federation Services (ADFS) 3.0 is a federated
+identity system provided by Windows Server 2012 R2.  It allows
+organizations to use their own Active Directory authentication with
+outside services.
 
-The integration procedure on your end consists of the steps below.
+Achieving a successful single sign-on integration between your
+authentication system and the Silent Circle platform requires
+coordination between your team and ours and that your technical staff
+complete certain integration steps on your systems.
 
-* A [configuration procedure](#sccp), which configures the trust
-  relationship between Silent Circle and your AD FS infrastructure;
-* An [acceptance test procedure](#scatp), in which you run through
-  a set of acceptance tests to ensure that the integration is
-  successful.
+In this document, we'll cover the specific system requirements for the
+SSO integration, the process by which your team and ours will perform,
+test, and validate this integration, and the specific technical steps
+you'll need to take on your systems.
 
 ## Table of Contents
 
