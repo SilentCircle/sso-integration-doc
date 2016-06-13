@@ -11,9 +11,15 @@ usage() {
     cat <<END_USAGE
 * Adds table of contents to markdown document using Pandoc.
 * Replaces existing table of contents if it is demarcated by
+
 <!-- START TOC -->
+
 ... toc stuff
+
 <!-- END TOC -->
+
+Note that to avoid formatting issues, the demarcation lines
+should be preceded and followed by at least one blank line.
 
 usage: $(basename $0) markdown-doc-name
 
@@ -51,7 +57,8 @@ strip_toc() {
 
     local dest_file=$(mktemp)
 
-    sed -re '/<!-- START TOC -->/,/<!-- END TOC -->/d' \
+    sed -e '/<!-- START TOC -->/,/<!-- END TOC -->/d' \
+        -e '/./,$!d' \
         "$src_file" > "$dest_file"
 
     echo "$dest_file"
@@ -68,7 +75,7 @@ create_toc() {
     local dest_file=$(mktemp)
     local template_file=$(mktemp)
 
-    echo -e '<!-- START TOC -->\n$toc$\n<!-- END TOC -->' > "${template_file}"
+    echo -n -e '\n<!-- START TOC -->\n\n$toc$\n\n<!-- END TOC -->\n\n' > "${template_file}"
 
     pandoc \
         --toc \
