@@ -1,4 +1,6 @@
+
 <!-- START TOC -->
+
 -   [PingFederate Integration](#pingfederate-integration)
 -   [PingFederate OpenID Connect configuration for Silent Circle](#pingfederate-openid-connect-configuration-for-silent-circle)
     -   [Requirements](#requirements)
