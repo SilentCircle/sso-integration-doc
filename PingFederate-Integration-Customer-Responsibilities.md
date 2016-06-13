@@ -36,7 +36,9 @@
     -   [Validation](#validation)
 -   [Appendix A: Notes](#appendix-a-notes)
     -   [A.1: OpenID Connect Discovery Document](#a.1-openid-connect-discovery-document)
+
 <!-- END TOC -->
+
 # PingFederate Integration
 
 This document comprises the following major sections:
